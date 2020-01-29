@@ -4,7 +4,7 @@
   "description": "En eksempel-app for immutable webapps",
   "browser": "src/main.js",
   "scripts": {
-    "build": "echo \"Error: no test specified\" && exit 1"
+    "build": "node build.js"
   },
   "repository": {
     "type": "git",
