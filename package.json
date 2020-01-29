@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/kleivane/immutable-webapp/issues"
   },
-  "homepage": "https://github.com/kleivane/immutable-webapp#readme"
+  "homepage": "https://github.com/kleivane/immutable-webapp#readme",
+  "devDependencies": {
+    "fs-extra": "^8.1.0"
+  }
 }
