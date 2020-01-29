@@ -1,0 +1,19 @@
+{
+  "name": "immutable-webapp",
+  "version": "0.0.1",
+  "description": "En eksempel-app for immutable webapps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kleivane/immutable-webapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kleivane/immutable-webapp/issues"
+  },
+  "homepage": "https://github.com/kleivane/immutable-webapp#readme"
+}
