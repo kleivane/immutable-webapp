@@ -30,7 +30,7 @@ jobs:
       run: echo "Build number is $BUILD_NUMBER"
     - uses: actions/upload-artifact@v1
       with:
-        name: build-{{ $BUILD_NUMBER }}
+        name: build-${{BUILD_NUMBER}}
         path: build/
 
   deploy:
@@ -39,7 +39,7 @@ jobs:
     - name: Download build from previous step
       uses: actions/download-artifact@v1
       with:
-        name: build
+        name: build-${{BUILD_NUMBER}}
     - uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read --follow-symlinks --delete
