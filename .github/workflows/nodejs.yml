@@ -1,6 +1,9 @@
-name: Node.js CI
+name: Build and upload
 
-on: [push]
+on:
+  push:
+    branches:
+    - master
 
 jobs:
   build:
@@ -19,3 +22,24 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: npm run build --if-present
+    - uses: actions/upload-artifact@v1
+      with:
+        name: build/${{ GITHUB_SHA }}
+        path: build/
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download build from previous step
+      uses: actions/download-artifact@v1
+      with:
+        name: build/${{ GITHUB_SHA }}
+    - uses: actions/checkout@master
+    - uses: jakejarvis/s3-sync-action@master
+      with:
+        args: --acl public-read --follow-symlinks --delete
+      env:
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: 'eu-north-1'
