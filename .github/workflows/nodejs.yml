@@ -24,7 +24,7 @@ jobs:
     - run: npm run build --if-present
     - uses: actions/upload-artifact@v1
       with:
-        name: build/${{ GITHUB_SHA }}
+        name: build
         path: build/
 
   deploy:
@@ -33,7 +33,7 @@ jobs:
     - name: Download build from previous step
       uses: actions/download-artifact@v1
       with:
-        name: build/${{ GITHUB_SHA }}
+        name: build
     - uses: actions/checkout@master
     - uses: jakejarvis/s3-sync-action@master
       with:
