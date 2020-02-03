@@ -30,7 +30,7 @@ jobs:
       run: echo "Build number is $BUILD_NUMBER"
     - uses: actions/upload-artifact@v1
       with:
-        name: build-$BUILD_NUMBER
+        name: build-{{ $BUILD_NUMBER }}
         path: build/
 
   deploy:
