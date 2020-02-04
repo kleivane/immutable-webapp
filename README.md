@@ -4,6 +4,12 @@ En implementasjon av stukturen fra https://immutablewebapps.org/
 # Deploy
 Deploy av index.html `npm run deploy -- -sha <GIT_SHA>`
 
+# AWS-oppsett
+* Bucket repo med `cache-control: public, max-age=31536000, immutable`
+* Bucket test med *kun* index.html og `cache-control: no-store`
+* TEST: cloudformation med 2 origins, repo og index og behaviors.
+
+
 # Alternativer
 * Deploy-time inn i index.html
 * Legge til cloudfront
