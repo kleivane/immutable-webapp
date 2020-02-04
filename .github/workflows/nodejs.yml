@@ -43,7 +43,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: 'eu-north-1'
         SOURCE_DIR: 'build-${{github.sha}}'
-        DEST_DIR: '${{github.sha}}'
+        DEST_DIR: 'assets/${{github.sha}}'
 
   deploy-test:
     runs-on: ubuntu-latest
