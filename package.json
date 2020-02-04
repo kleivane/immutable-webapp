@@ -4,7 +4,8 @@
   "description": "En eksempel-app for immutable webapps",
   "browser": "src/main.js",
   "scripts": {
-    "build": "node build.js"
+    "build": "node build.js",
+    "deploy": "node deploy.js --environment test"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,8 @@
   "homepage": "https://github.com/kleivane/immutable-webapp#readme",
   "devDependencies": {
     "fs-extra": "^8.1.0",
-    "moment": "^2.24.0"
+    "moment": "^2.24.0",
+    "replace-in-file": "^5.0.2",
+    "command-line-args": "^5.1.1"
   }
 }

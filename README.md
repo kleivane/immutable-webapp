@@ -1,6 +1,9 @@
 # Immutable-webapp
 En implementasjon av stukturen fra https://immutablewebapps.org/
 
+# Deploy
+Deploy av index.html `npm run deploy -- -sha <GIT_SHA>`
+
 # Alternativer
 * Deploy-time inn i index.html
 * Legge til cloudfront
