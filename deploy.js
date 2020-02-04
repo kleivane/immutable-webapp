@@ -10,7 +10,7 @@ const args = commandLineArgs([
 ])
 
 
-const timestamp = moment().format('dddd, MMMM Do YYYY, hh:mm:ss Z');
+const timestamp = moment().format();
 const replaceOptions = {
   files: 'server/index.html',
   from: [
