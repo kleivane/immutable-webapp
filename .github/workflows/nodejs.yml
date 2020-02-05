@@ -37,7 +37,7 @@ jobs:
         args: >-
           --acl public-read --follow-symlinks --delete --cache-control public,max-age=31536000,immutable
       env:
-        AWS_S3_BUCKET: ${{ secrets.REPO_AWS_S3_BUCKET }}
+        AWS_S3_BUCKET: ${{ secrets.ASSET_AWS_S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: 'eu-north-1'
@@ -54,7 +54,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: npm run deploy -- --sha ${{github.sha}}
+    - run: npm run build-index -- --sha ${{github.sha}} --environment test
     - uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read --follow-symlinks --delete --cache-control no-store

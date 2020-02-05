@@ -5,7 +5,7 @@
   "browser": "src/main.js",
   "scripts": {
     "build": "node build.js",
-    "deploy": "node deploy.js --environment test"
+    "build-index": "node deploy.js"
   },
   "repository": {
     "type": "git",

@@ -12,11 +12,9 @@ Deploy av index.html `npm run deploy -- -sha <GIT_SHA>`
 
 # Alternativer
 * Slå sammen deploy-assets og deploy-test
-* Deploy-time inn i index.html
-* Legge til cloudfront
 * Bytte ut git-sha med [build-numbers](https://github.com/marketplace/actions/build-number-generator)
 * 2 miljøer
-* ordentlige urler
+* ordentlige urler 
 * tester på deploytid
 * CSS og bilder inn i `npm run build`
 * Sette opp en ok utvilkingsprosess for js
