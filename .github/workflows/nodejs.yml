@@ -59,9 +59,9 @@ jobs:
     - run: npm ci
     - run: >-
         npm run build-index --
-          --sha ${{github.sha}}
-          --environment test
-          --url http://d2w5n29vcru7qq.cloudfront.net
+        --sha ${{github.sha}}
+        --environment test
+        --url http://d2w5n29vcru7qq.cloudfront.net
     - uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read --follow-symlinks --delete --cache-control no-store
