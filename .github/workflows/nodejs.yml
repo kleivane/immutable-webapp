@@ -1,4 +1,4 @@
-name: Build and upload
+name: Build and upload assets and index
 
 on:
   push:
@@ -7,13 +7,10 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [12.x]
-
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
@@ -28,6 +25,7 @@ jobs:
         path: build/
 
   deploy-assets:
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - name: Download build from previous step
@@ -47,6 +45,7 @@ jobs:
         DEST_DIR: 'assets/${{github.sha}}'
 
   deploy-test:
+    needs: deploy-assets
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
