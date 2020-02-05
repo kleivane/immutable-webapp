@@ -36,7 +36,8 @@ jobs:
         name: build-${{github.sha}}
     - uses: jakejarvis/s3-sync-action@master
       with:
-        args: '--acl public-read --follow-symlinks --delete --cache-control cache-control: public, max-age=31536000, immutable'
+        args: >-
+          --acl public-read --follow-symlinks --delete --cache-control cache-control: public, max-age=31536000, immutable
       env:
         AWS_S3_BUCKET: ${{ secrets.REPO_AWS_S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
