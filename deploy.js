@@ -21,7 +21,7 @@ const replaceOptions = {
   ],
   to: [
     args.environment,
-    'http://d9x28jn4qi13.cloudfront.net',
+    'http://d2w5n29vcru7qq.cloudfront.net',
     args.sha,
     timestamp
   ],
