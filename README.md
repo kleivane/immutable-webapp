@@ -28,4 +28,4 @@ curl -H "Accept: application/vnd.github.everest-preview+json" \
     -H "Authorization: token <your-token-here>" \
     --request POST \
     --data '{"event_type": "trigger-production", "client_payload": { "dummy": "a dummy example"}}' \
-https://api.github.com/repos/kleivane/GitHubActionsAutomationSandbox/dispatches ```
+https://api.github.com/repos/kleivane/immutable-webapp/dispatches```
