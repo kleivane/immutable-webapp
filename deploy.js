@@ -5,6 +5,7 @@ const commandLineArgs = require('command-line-args')
 
 
 const args = commandLineArgs([
+  { name: 'url', alias: 'u', type: String },
   { name: 'environment', alias: 'e', type: String },
   { name: 'sha', alias: 's', type: String }
 ])
@@ -21,7 +22,7 @@ const replaceOptions = {
   ],
   to: [
     args.environment,
-    'http://d2w5n29vcru7qq.cloudfront.net',
+    args.url,
     args.sha,
     timestamp
   ],
