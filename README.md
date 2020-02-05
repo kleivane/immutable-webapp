@@ -3,9 +3,9 @@ En implementasjon av stukturen fra https://immutablewebapps.org/
 
 # AWS-oppsett med Cloudfront og S3
 * Bucket med statiske assets med `cache-control: public, max-age=31536000, immutable`
-* Bucket <env> med *kun* index.html og `cache-control: no-store`
+* Bucket *env* med *kun* index.html og `cache-control: no-store`
 * Cloudfront foran med redirects til rett buckets
-* Se immutable-webapp-<env> på https://github.com/kleivane/immutable-infrastructure for terraform-oppsett
+* Se immutable-webapp-*env* på https://github.com/kleivane/immutable-infrastructure for terraform-oppsett
 
 
 # Alternativer
