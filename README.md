@@ -1,13 +1,11 @@
 # Immutable-webapp
 En implementasjon av stukturen fra https://immutablewebapps.org/
 
-# Deploy
-Deploy av index.html `npm run deploy -- -sha <GIT_SHA>`
-
-# AWS-oppsett
-* Bucket repo med `cache-control: public, max-age=31536000, immutable`
-* Bucket test med *kun* index.html og `cache-control: no-store`
-* TEST: cloudformation med 2 origins, repo og index og behaviors.
+# AWS-oppsett med Cloudfront og S3
+* Bucket med statiske assets med `cache-control: public, max-age=31536000, immutable`
+* Bucket *<env>* med *kun* index.html og `cache-control: no-store`
+* Cloudfront foran med redirects til rett buckets
+* Se immutable-webapp-*<env>* på https://github.com/kleivane/immutable-infrastructure for terraform-oppsett
 
 
 # Alternativer
@@ -18,9 +16,10 @@ Deploy av index.html `npm run deploy -- -sha <GIT_SHA>`
 * tester på deploytid
 * CSS og bilder inn i `npm run build`
 * Sette opp en ok utvilkingsprosess for js
-* Terraform for AWS-oppsettet
 * Backend
 * Database
+* Pålogging
+* Sikkerhet
 
 # Prodsetting
 ```
