@@ -1,0 +1,25 @@
+name: Deploy version to production
+
+on:
+  repository_dispatch:
+    types: trigger-production
+
+jobs:
+  deploy-prod:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: >-
+      npm run build-index --
+        --sha ${{github.sha}}
+        --environment prod
+        --url 'http://d2w5n29vcru7qq.cloudfront.net'
+    - uses: actions/upload-artifact@v1
+      with:
+        name: index-${{github.sha}}
+        path: server/

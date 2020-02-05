@@ -14,10 +14,18 @@ Deploy av index.html `npm run deploy -- -sha <GIT_SHA>`
 * Slå sammen deploy-assets og deploy-test
 * Bytte ut git-sha med [build-numbers](https://github.com/marketplace/actions/build-number-generator)
 * 2 miljøer
-* ordentlige urler 
+* ordentlige urler
 * tester på deploytid
 * CSS og bilder inn i `npm run build`
 * Sette opp en ok utvilkingsprosess for js
 * Terraform for AWS-oppsettet
 * Backend
 * Database
+
+# Prodsetting
+```
+curl -H "Accept: application/vnd.github.everest-preview+json" \
+    -H "Authorization: token <your-token-here>" \
+    --request POST \
+    --data '{"event_type": "trigger-production", "client_payload": { "dummy": "a dummy example"}}' \
+https://api.github.com/repos/kleivane/GitHubActionsAutomationSandbox/dispatches ```
