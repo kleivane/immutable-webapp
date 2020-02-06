@@ -18,7 +18,7 @@ jobs:
         npm run build-index --
         --sha ${{github.sha}}
         --environment prod
-        --url http://d141os3smnxory.cloudfront.net
+        --url https://d141os3smnxory.cloudfront.net
     - uses: actions/upload-artifact@v1
       with:
         name: index-${{github.sha}}
