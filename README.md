@@ -16,11 +16,13 @@ En implementasjon av stukturen fra https://immutablewebapps.org/
 * tester på deploytid
 * CSS og bilder inn i `npm run build`
 * Sette opp en ok utvilkingsprosess for js
-* Backend
+* Backend (helsesjekker og overvåking)
 * Database
 * Pålogging
 * Sikkerhet
-* github-secrets og terraform
+* terraform outputs som som github-secret
+* secrets lokalt for å kjøre terraform
+* secrets lokalt for å trigge githubaction
 
 # Prodsetting
 ```
