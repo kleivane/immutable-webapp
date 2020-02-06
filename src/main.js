@@ -1,5 +1,5 @@
 const appHeading = document.createElement("h1");
-const appVersion = document.createTextNode(`App version [${env.ENV_NAME}]: ${env.GIT_SHA}`)
+const appVersion = document.createTextNode(`App version [${env.ENV_NAME}]: ${env.GIT_SHA.slice(0,7)}`)
 appHeading.appendChild(appVersion);
 
 const versionHeading = document.createElement("h2");
