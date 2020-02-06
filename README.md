@@ -20,6 +20,7 @@ En implementasjon av stukturen fra https://immutablewebapps.org/
 * Database
 * Pålogging
 * Sikkerhet
+* github-secrets og terraform
 
 # Prodsetting
 ```
