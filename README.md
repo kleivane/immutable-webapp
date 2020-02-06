@@ -3,7 +3,7 @@ En implementasjon av stukturen fra https://immutablewebapps.org/
 
 # AWS-oppsett med Cloudfront og S3
 * Bucket med statiske assets med `cache-control: public, max-age=31536000, immutable`
-* Bucket *env* med *kun* index.html og `cache-control: no-store`
+* Bucket *test* og *prod* med *kun* index.html og `cache-control: no-store`
 * Cloudfront foran med redirects til rett buckets
 * Se immutable-webapp-*env* på https://github.com/kleivane/immutable-infrastructure for terraform-oppsett
 
@@ -11,8 +11,7 @@ En implementasjon av stukturen fra https://immutablewebapps.org/
 # Alternativer
 * Slå sammen deploy-assets og deploy-test
 * Bytte ut git-sha med [build-numbers](https://github.com/marketplace/actions/build-number-generator)
-* 2 miljøer
-* ordentlige urler
+* ordentlige bekk-urler til relativt statiske aws-urler
 * tester på deploytid
 * CSS og bilder inn i `npm run build`
 * Sette opp en ok utvilkingsprosess for js
@@ -20,6 +19,7 @@ En implementasjon av stukturen fra https://immutablewebapps.org/
 * Database
 * Pålogging
 * Sikkerhet
+* shared state / remote backend i terraform
 * terraform outputs som som github-secret
 * secrets lokalt for å kjøre terraform
 * secrets lokalt for å trigge githubaction
