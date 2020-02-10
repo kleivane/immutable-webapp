@@ -18,9 +18,10 @@ En implementasjon av stukturen fra https://immutablewebapps.org/
 * Backend (helsesjekker og overvåking)
 * Database
 * Pålogging
-* Sikkerhet
-* shared state / remote backend i terraform
+* Sikkerhet (vault eller andre, aws systems manager + KMS)
 * terraform outputs som som github-secret
+* flytte gh-produksjonsaction til aws
+* terraform på ci
 * secrets lokalt for å kjøre terraform
 * secrets lokalt for å trigge githubaction
 
