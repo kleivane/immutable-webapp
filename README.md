@@ -1,6 +1,16 @@
 # Immutable-webapp
 En implementasjon av stukturen fra https://immutablewebapps.org/
 
+## Gode sky-prinsipper
+* Infrastruktur som kode
+* Deploy av kode og infrastruktur skal skje fra ci
+* Utviklere skal ha rettigheter som ikke stopper dem fra å teste og utforske
+* Prod skal ha annen tilgangsstyring enn test
+* Bygget kode skal kunne deployes til alle miljøer - config skal leve et annet sted
+* Den eneste hemmeligheten utenfor infrastrukturen skal egentlig være access-keys
+* Gjør deg kjent med verktøyene i skyplattformen, deres styrker og svakheter, følg med på nyheter :)
+* Om to produkter kan løse samme oppgaven, velg den som gir minst vedlikeholdsarbeide
+
 # AWS-oppsett med Cloudfront og S3
 * Bucket med statiske assets med `cache-control: public, max-age=31536000, immutable`
 * Bucket *test* og *prod* med *kun* index.html og `cache-control: no-store`
