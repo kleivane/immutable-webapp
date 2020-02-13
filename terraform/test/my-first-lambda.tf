@@ -33,9 +33,37 @@ resource "aws_iam_role" "lambda_exec" {
       },
       "Effect": "Allow",
       "Sid": ""
+    }]
+}
+EOF
+
+}
+
+resource "aws_iam_policy" "policy" {
+  name        = "test-lambda-deployer-policy"
+  description = "A policy for the lambda deploying to test"
+
+  policy = <<EOF
+{
+  "Id": "Policy1581595644141",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1581595637934",
+      "Action": [
+        "s3:ListBucket",
+        "s3:PutObject"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::tf-immutable-webapp-test"
     }
   ]
 }
 EOF
+}
 
+resource "aws_iam_policy_attachment" "test-lambda-deployer-attach" {
+  name       = "test-lambda-deployer-attachment"
+  roles      = ["${aws_iam_role.lambda_exec.name}"]
+  policy_arn = aws_iam_policy.policy.arn
 }
