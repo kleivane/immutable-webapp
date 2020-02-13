@@ -28,6 +28,9 @@ exports.handler = function(event, context, callback) {
     body: '<p>Hello world! 2</p>'
   }
 
+  let environment = process.env.TF_ENVIRONMENT;
+  let url = process.env.TF_API_URL;
+
   const index = `<!doctype html>
   <html>
     <head>
@@ -41,9 +44,9 @@ exports.handler = function(event, context, callback) {
          <!-- environment variables -->
          <script>
          env = {
-             ENV_NAME: 'test',
+             ENV_NAME: '${environment}',
              GIT_SHA: 'en-sha',
-             API_URL: 'https://d26qt8w4bwo4xv.cloudfront.net'
+             API_URL: '${url}'
          }
          </script>
 
@@ -51,7 +54,7 @@ exports.handler = function(event, context, callback) {
          <app-root></app-root>
          <h3>Deployed at TIMESTAMP_PLACEHOLDER</h3>
          <!-- fully-qualified static assets -->
-         <script src="https://d26qt8w4bwo4xv.cloudfront.net/assets/GIT_SHA_PLACEHOLDER/main.js" type="text/javascript"></script>
+         <script src="${url}/assets/GIT_SHA_PLACEHOLDER/main.js" type="text/javascript"></script>
 
 
      </body>

@@ -15,6 +15,13 @@ resource "aws_lambda_function" "deployer" {
   runtime = "nodejs10.x"
 
   role = aws_iam_role.lambda_exec.arn
+
+  environment {
+  variables = {
+    TF_ENVIRONMENT = "test"
+    TF_API_URL = module.immutable_cloudfront.distribution.domain_name
+  }
+}
 }
 
 # IAM role which dictates what other AWS services the Lambda function
