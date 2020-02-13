@@ -88,3 +88,4 @@ jobs:
         aws lambda invoke
         --function-name deploy_test
         --payload '{ "sha": "${{github.sha}}" }'
+        response.json
