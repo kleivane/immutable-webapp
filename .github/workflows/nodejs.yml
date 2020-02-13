@@ -86,5 +86,5 @@ jobs:
     - name: Trigger lambda for build of index.html from AWS CLI
       run: >-
         aws lambda invoke
-            --function-name deploy_test
-            --payload '{ "sha": "${{github.sha}}" }'
+        --function-name deploy_test
+        --payload '{ "sha": "${{github.sha}}" }'
