@@ -52,7 +52,8 @@ resource "aws_iam_policy" "policy" {
       "Sid": "Stmt1581595637934",
       "Action": [
         "s3:ListBucket",
-        "s3:PutObject"
+        "s3:PutObject",
+        "s3:PutObjectAcl"
       ],
       "Effect": "Allow",
       "Resource": "arn:aws:s3:::tf-immutable-webapp-test/*"
