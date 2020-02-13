@@ -55,7 +55,7 @@ resource "aws_iam_policy" "policy" {
         "s3:PutObject"
       ],
       "Effect": "Allow",
-      "Resource": "arn:aws:s3:::tf-immutable-webapp-test"
+      "Resource": "arn:aws:s3:::tf-immutable-webapp-test/*"
     }
   ]
 }
