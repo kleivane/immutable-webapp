@@ -3,31 +3,6 @@ var AWS = require('aws-sdk');
 
 exports.handler = function(event, context, callback) {
 
-
-  function putObjectToS3(bucket, key, data){
-      var s3 = new AWS.S3();
-          var params = {
-              Bucket : bucket,
-              Key : key,
-              Body : data,
-              CacheControl: 'no-store',
-              ContentType: "text/html",
-              ACL: "public-read"
-          }
-          s3.putObject(params, function(err, data) {
-            if (err) console.log(err, err.stack); // an error occurred
-            else     console.log(data);           // successful response
-          });
-  }
-
-  var response = {
-    statusCode: 200,
-    headers: {
-      'Content-Type': 'text/html; charset=utf-8'
-    },
-    body: '<p>Hello world! 2</p>'
-  }
-
   const environment = process.env.TF_ENVIRONMENT;
   const url = `https://${process.env.TF_API_URL}`;
   const sha = event.sha;
@@ -61,6 +36,15 @@ exports.handler = function(event, context, callback) {
      </body>
   </html>`
 
-  putObjectToS3('tf-immutable-webapp-test', 'lambda.html', index);
-  callback(null, response)
+  var s3 = new AWS.S3();
+      var params = {
+          Bucket : 'tf-immutable-webapp-test',
+          Key : 'lambda2.html',
+          Body : index,
+          CacheControl: 'no-store',
+          ContentType: "text/html",
+          ACL: "public-read"
+      }
+
+  return s3.putObject(params).promise();
 }
