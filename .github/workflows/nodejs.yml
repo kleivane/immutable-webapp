@@ -28,6 +28,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+    - name: Download build from previous step
+      uses: actions/download-artifact@v1
+      with:
+        name: build-${{github.sha}}
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
