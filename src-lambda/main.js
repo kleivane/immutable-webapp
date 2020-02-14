@@ -4,6 +4,7 @@ var AWS = require('aws-sdk');
 exports.handler = function(event, context, callback) {
 
   const environment = process.env.TF_ENVIRONMENT;
+  const bucket = process.env.TF_BUCKET;
   const url = `https://${process.env.TF_API_URL}`;
   const sha = event.sha;
 
@@ -38,8 +39,8 @@ exports.handler = function(event, context, callback) {
 
   var s3 = new AWS.S3();
       var params = {
-          Bucket : 'tf-immutable-webapp-test',
-          Key : 'lambda2.html',
+          Bucket : bucket,
+          Key : 'index.html',
           Body : index,
           CacheControl: 'no-store',
           ContentType: "text/html",
