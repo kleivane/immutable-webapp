@@ -11,6 +11,16 @@ resource "aws_s3_bucket" "assets" {
   }
 }
 
+resource "aws_s3_bucket" "deploy_assets" {
+  bucket = "immutable-webapp-deploy-src"
+
+  tags = {
+    Name = "assets"
+    managed_by = "terraform"
+  }
+}
+
+
 output "id" {
   value = aws_s3_bucket.assets.id
 }
