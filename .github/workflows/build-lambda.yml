@@ -1,11 +1,12 @@
 name: Zip js to bucket x.y.z/src.zip from tag 'lambda-x.y.z'
 
 on:
-  create
+  push:
+    tags:
+      - lambda-*
 
 jobs:
   build:
-    if: github.ref == *"lambda"*
     runs-on: ubuntu-latest
     strategy:
       matrix:
