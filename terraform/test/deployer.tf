@@ -1,16 +1,13 @@
-variable "app_version" {
+locals {
+  deployer_src_version = "0.0.6"
 }
 
 resource "aws_lambda_function" "deployer" {
   function_name = "deploy_test"
 
-  # The bucket name as created earlier with "aws s3api create-bucket"
   s3_bucket = "immutable-webapp-deploy-src"
-  s3_key    = "v${var.app_version}/src.zip"
+  s3_key    = "${local.deployer_src_version}/src.zip"
 
-  # "main" is the filename within the zip file (main.js) and "handler"
-  # is the name of the property under which the handler function was
-  # exported in that file.
   handler = "main.handler"
   runtime = "nodejs10.x"
 
@@ -20,6 +17,7 @@ resource "aws_lambda_function" "deployer" {
   variables = {
     TF_ENVIRONMENT = "test"
     TF_API_URL = module.immutable_cloudfront.distribution.domain_name
+    TF_BUCKET = aws_s3_bucket.test.id
   }
 }
 }
@@ -63,7 +61,7 @@ resource "aws_iam_policy" "policy" {
         "s3:PutObjectAcl"
       ],
       "Effect": "Allow",
-      "Resource": "arn:aws:s3:::tf-immutable-webapp-test/*"
+      "Resource": "${aws_s3_bucket.test.arn}/*"
     }
   ]
 }
