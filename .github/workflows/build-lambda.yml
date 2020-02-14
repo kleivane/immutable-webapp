@@ -19,6 +19,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Zip src-lambda-folder
       run: zip -rj src.zip src-lambda/
+    - name: Get build version from tag
+      id: release
+      run: echo ::set-output name=tag::${GITHUB_REF:17}
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -27,4 +30,4 @@ jobs:
         aws-region: eu-north-1
     - name: Upload archive to lambda-src-bucket
       run: >-
-        aws s3 cp src.zip s3://immutable-webapp-deploy-src/x.y.z/src.zip
+        aws s3 cp src.zip s3://immutable-webapp-deploy-src/${{ steps.release.outputs.tag }}/src.zip
