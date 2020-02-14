@@ -1,0 +1,29 @@
+name: Zip js to bucket x.y.z/src.zip from tag 'lambda-x.y.z'
+
+on:
+  create
+
+jobs:
+  build:
+    if: github.ref == *"lambda"*
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Zip src-lambda-folder
+      run: zip -rj src.zip src-lambda/
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-north-1
+    - name: Upload archive to lambda-src-bucket
+      run: >-
+        aws s3 cp src.zip s3://immutable-webapp-deploy-src/x.y.z/src.zip
