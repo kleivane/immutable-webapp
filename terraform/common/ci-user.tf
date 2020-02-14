@@ -13,7 +13,7 @@ resource "aws_iam_access_key" "ci_key" {
 }
 
 resource "aws_iam_policy" "bucket" {
-  name        = "tf-PutObject-${aws_iam_user.ci.name}"
+  name        = "tf-S3FullAccess-${aws_iam_user.ci.name}"
 
   policy = <<EOF
 {
@@ -21,7 +21,7 @@ resource "aws_iam_policy" "bucket" {
     "Statement": [
         {
             "Effect": "Allow",
-            "Action": "s3:PutObject",
+            "Action": "s3:*",
             "Resource": [
               "${aws_s3_bucket.assets.arn}/*",
               "${aws_s3_bucket.deploy_assets.arn}/*"
