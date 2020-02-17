@@ -3,13 +3,17 @@ provider "aws" {
   version = "~> 2.47"
 }
 
+locals {
+  environment = "prod"
+}
+
 resource "aws_s3_bucket" "prod" {
   bucket = "tf-immutable-webapp-prod"
   acl    = "public-read"
 
   tags = {
     Name        = "immutable-webapp-prod"
-    Environment = "prod"
+    Environment = local.environment
   }
 }
 
@@ -18,17 +22,18 @@ module "immutable_cloudfront" {
 
   bucket_origin_id = "S3-${aws_s3_bucket.prod.id}"
   bucket_domain_name = aws_s3_bucket.prod.bucket_regional_domain_name
-  environment= "prod"
+  environment= local.environment
 }
 
-output "bucket_id_asset" {
-  value = module.immutable_cloudfront.bucket_id
-}
+module "deployer" {
+  source = "../common/modules/terraform-aws-lambda-s3-deployer"
 
-output "bucket_prod" {
-  value = aws_s3_bucket.prod.id
-}
+  src_version = "0.0.6"
+  api_url = module.immutable_cloudfront.distribution.domain_name
+  bucket = {
+    id = aws_s3_bucket.prod.id
+    arn = aws_s3_bucket.prod.arn
+  }
 
-output "domain_name_prod" {
-  value = module.immutable_cloudfront.distribution.domain_name
+  environment= local.environment
 }
