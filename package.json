@@ -4,8 +4,7 @@
   "description": "En eksempel-app for immutable webapps",
   "browser": "src/main.js",
   "scripts": {
-    "build": "node build.js",
-    "build-index": "node deploy.js"
+    "build": "node build.js"
   },
   "repository": {
     "type": "git",
