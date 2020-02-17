@@ -1,9 +1,11 @@
 locals {
   deployer_src_version = "0.0.6"
+  environment = "test"
 }
 
 resource "aws_lambda_function" "deployer" {
-  function_name = "deploy_test"
+  function_name = "deploy_${local.environment}"
+  description = "A lambda that configures and deploys an interpolated index.html to environment: ${local.environment}"
 
   s3_bucket = "immutable-webapp-deploy-src"
   s3_key    = "${local.deployer_src_version}/src.zip"
@@ -15,15 +17,13 @@ resource "aws_lambda_function" "deployer" {
 
   environment {
   variables = {
-    TF_ENVIRONMENT = "test"
+    TF_ENVIRONMENT = local.environment
     TF_API_URL = module.immutable_cloudfront.distribution.domain_name
     TF_BUCKET = aws_s3_bucket.test.id
   }
 }
 }
 
-# IAM role which dictates what other AWS services the Lambda function
-# may access.
 resource "aws_iam_role" "lambda_exec" {
   name = "deployer_lambda"
 
@@ -45,8 +45,8 @@ EOF
 }
 
 resource "aws_iam_policy" "policy" {
-  name        = "test-lambda-deployer-policy"
-  description = "A policy for the lambda deploying to test"
+  name        = "${local.environment}-lambda-deployer-policy"
+  description = "A policy for the lambda deploying to ${local.environment}"
 
   policy = <<EOF
 {
@@ -69,7 +69,7 @@ EOF
 }
 
 resource "aws_iam_policy_attachment" "test-lambda-deployer-attach" {
-  name       = "test-lambda-deployer-attachment"
+  name       = "${local.environment}-lambda-deployer-attachment"
   roles      = ["${aws_iam_role.lambda_exec.name}"]
   policy_arn = aws_iam_policy.policy.arn
 }
