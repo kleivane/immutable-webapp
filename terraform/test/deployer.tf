@@ -25,7 +25,7 @@ resource "aws_lambda_function" "deployer" {
 }
 
 resource "aws_iam_role" "lambda_exec" {
-  name = "deployer_lambda"
+  name = "tf-deploy_lambda_${local.environment}"
 
   assume_role_policy = <<EOF
 {
@@ -45,7 +45,7 @@ EOF
 }
 
 resource "aws_iam_policy" "policy" {
-  name        = "${local.environment}-lambda-deployer-policy"
+  name        = "tf-deploy-${local.environment}-policy"
   description = "A policy for the lambda deploying to ${local.environment}"
 
   policy = <<EOF
@@ -69,7 +69,7 @@ EOF
 }
 
 resource "aws_iam_policy_attachment" "test-lambda-deployer-attach" {
-  name       = "${local.environment}-lambda-deployer-attachment"
+  name       = "tf-deploy-${local.environment}"
   roles      = ["${aws_iam_role.lambda_exec.name}"]
   policy_arn = aws_iam_policy.policy.arn
 }
