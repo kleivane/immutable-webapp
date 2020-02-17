@@ -1,14 +1,11 @@
-locals {
-  deployer_src_version = "0.0.6"
-  environment = "test"
-}
+
 
 resource "aws_lambda_function" "deployer" {
-  function_name = "deploy_${local.environment}"
-  description = "A lambda that configures and deploys an interpolated index.html to environment: ${local.environment}"
+  function_name = "deploy_${var.environment}"
+  description = "A lambda that configures and deploys an interpolated index.html to environment: ${var.environment}"
 
   s3_bucket = "immutable-webapp-deploy-src"
-  s3_key    = "${local.deployer_src_version}/src.zip"
+  s3_key    = "${var.src_version}/src.zip"
 
   handler = "main.handler"
   runtime = "nodejs10.x"
@@ -17,15 +14,15 @@ resource "aws_lambda_function" "deployer" {
 
   environment {
   variables = {
-    TF_ENVIRONMENT = local.environment
-    TF_API_URL = module.immutable_cloudfront.distribution.domain_name
-    TF_BUCKET = aws_s3_bucket.test.id
+    TF_ENVIRONMENT = var.environment
+    TF_API_URL = var.api_url
+    TF_BUCKET = var.bucket.id
   }
 }
 }
 
 resource "aws_iam_role" "lambda_exec" {
-  name = "tf-deploy_lambda_${local.environment}"
+  name = "tf-deploy_lambda_${var.environment}"
 
   assume_role_policy = <<EOF
 {
@@ -45,8 +42,8 @@ EOF
 }
 
 resource "aws_iam_policy" "policy" {
-  name        = "tf-deploy-${local.environment}-policy"
-  description = "A policy for the lambda deploying to ${local.environment}"
+  name        = "tf-deploy-${var.environment}-policy"
+  description = "A policy for the lambda deploying to ${var.environment}"
 
   policy = <<EOF
 {
@@ -61,15 +58,15 @@ resource "aws_iam_policy" "policy" {
         "s3:PutObjectAcl"
       ],
       "Effect": "Allow",
-      "Resource": "${aws_s3_bucket.test.arn}/*"
+      "Resource": "${var.bucket.arn}/*"
     }
   ]
 }
 EOF
 }
 
-resource "aws_iam_policy_attachment" "test-lambda-deployer-attach" {
-  name       = "tf-deploy-${local.environment}"
+resource "aws_iam_policy_attachment" "lambda-deployer-attach" {
+  name       = "tf-deploy-${var.environment}"
   roles      = ["${aws_iam_role.lambda_exec.name}"]
   policy_arn = aws_iam_policy.policy.arn
 }

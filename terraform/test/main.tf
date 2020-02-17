@@ -25,14 +25,15 @@ module "immutable_cloudfront" {
   environment= "test"
 }
 
-output "bucket_id_asset" {
-  value = module.immutable_cloudfront.bucket_id
-}
+module "deployer" {
+  source = "../common/modules/terraform-aws-lambda-s3-deployer"
 
-output "bucket_id_test" {
-  value = aws_s3_bucket.test.id
-}
+  src_version = "0.0.6"
+  api_url = module.immutable_cloudfront.distribution.domain_name
+  bucket = {
+    id = aws_s3_bucket.test.id
+    arn = aws_s3_bucket.test.arn
+  }
 
-output "domain_name_test" {
-  value = module.immutable_cloudfront.distribution.domain_name
+  environment= "test"
 }
