@@ -5,8 +5,7 @@ En implementasjon av stukturen fra https://immutablewebapps.org/
 
 - `brew install awscli`
 - `brew install terraform`
-- Opprett en AWS-konto (OBS: du legger inn betalingskort, så vær klar over at du betaler for enkelte tjenester)
-- *jeg har valgt region eu-north-1 (Stockholm)*
+- Opprett en AWS-konto. Om du legger inn betalingskort, så vær klar over at du betaler for enkelte tjenester, følg med på Billing-service (*jeg har valgt region eu-north-1 (Stockholm)* )
 - Opprett en IAM-bruker med navn: `terraform` med `Programmatic access` og `Attach existing policies directly` med policy name  `AdministratorAccess` - legg til tagg "system=terraform" og last ned access-key og secret.
 - Kjør `aws configure` med ACCESS_KEY_ID og SECRET_ACCESS_KEY fra brukeren over. Kommandoen `aws iam get-user` kan brukes som en test på alt ok :)
 
