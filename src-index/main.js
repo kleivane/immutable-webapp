@@ -3,6 +3,7 @@ const fs = require('fs');
 const sha = process.env.GITHUB_SHA || 1;
 const environment =  "test";
 const url = 'https://"my-bucket-url' ;
+const date = new Date().toISOString();
 
 const index = `<!doctype html>
 <html>
@@ -20,7 +21,7 @@ const index = `<!doctype html>
            ENV_NAME: '${environment}',
            GIT_SHA: '${sha}',
            API_URL: '${url}',
-           CREATED_AT: '${new Date()}'
+           CREATED_AT: '${date}'
        }
        </script>
        <!-- application binding -->
