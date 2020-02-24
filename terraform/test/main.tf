@@ -67,7 +67,7 @@ resource "aws_route53_record" "ipv6" {
 module "deployer" {
   source = "../common/modules/terraform-aws-lambda-s3-deployer"
 
-  src_version = "0.0.7"
+  src_version = "0.0.8"
   api_url = module.immutable_cloudfront.distribution.domain_name
   bucket = {
     id = aws_s3_bucket.test.id
