@@ -1,6 +1,5 @@
 # Alternativer
 * Bytte ut git-sha med [build-numbers](https://github.com/marketplace/actions/build-number-generator)
-* ordentlige bekk-urler til relativt statiske aws-urler
 * tester på deploytid
 * CSS og bilder inn i `npm run build`
 * Backend (helsesjekker og overvåking)
