@@ -7,6 +7,7 @@ exports.handler = function(event, context, callback) {
   const bucket = process.env.TF_BUCKET;
   const url = `https://${process.env.TF_API_URL}`;
   const sha = event.sha;
+  const date = new Date().toISOString();
 
   const index = `<!doctype html>
   <html>
@@ -23,8 +24,8 @@ exports.handler = function(event, context, callback) {
          env = {
              ENV_NAME: '${environment}',
              GIT_SHA: '${sha}',
-             API_URL: '${url}'
-             CREATED_AT: '${new Date()}'
+             API_URL: '${url}',
+             CREATED_AT: '${date}'
          }
          </script>
 
