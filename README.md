@@ -1,6 +1,114 @@
 # Immutable-webapp
 En implementasjon av stukturen fra https://immutablewebapps.org/
 
+## Forberedelser
+
+- `brew install awscli`
+- `brew install terraform`
+- Opprett en AWS-konto (OBS: du legger inn betalingskort, så vær klar over at du betaler for enkelte tjenester)
+- *jeg har valgt region eu-north-1 (Stockholm)*
+- Opprett en IAM-bruker med navn: `terraform` med `Programmatic access` og `Attach existing policies directly` med policy name  `AdministratorAccess` - legg til tagg "system=terraform" og last ned access-key og secret.
+- Kjør `aws configure` med ACCESS_KEY_ID og SECRET_ACCESS_KEY fra brukeren over. Kommandoen `aws iam get-user` kan brukes som en test på alt ok :)
+
+Om du allerede nå ser at du vil lage noe under et eget domene, anbefaler jeg å gå inn på AWS Route 53 og opprettet et billig et med en gang. Selv om det sikkert går mye fortere, advarere Amazon om at det kan ta opp til 3 dager.
+
+## Min første immutable webapp
+
+Felles mål her er en immutable webapp med to s3-buckets og et cdn foran som hoster index.html og kildekode.
+
+
+Nyttige lenker:
+* Om du ikke er veldig kjent i aws-konsollen fra før, anbefaler jeg å sjekke ut https://console.aws.amazon.com/<s3|cloudfront|route53> underveis!
+* [Terraform-docs](https://www.terraform.io/docs/providers/aws/r/s3_bucket.html)
+* [AWS-cli-docs](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) for `aws s3 cp`
+
+
+### Testmiljø med buckets
+
+Opprett to buckets som skal bli der vi server asset og host fra ved å bruke terraform. Start i `terraform/test/main.tf`.
+
+Husk at s3-bucketnavn må være unike innenfor en region!
+
+Anbefalt terraform-output:
+* bucket_domain_name
+* id
+
+### Manuell opplasting av filer
+
+Bygg assets manuelt `npm run build` og last opp build-mappen i asset-bucketen på under navnet `assets/<id>`.
+
+`aws s3 cp <LocalPath> <S3Uri>`
+
+<details><summary>Tips</summary>
+<p>
+
+- bruk følgende S3-uri `s3://<bucket-name>/assets/1/`
+- `--acl public-read` optionen setter alle filene til public
+- `--recursive` laster opp hele mappen
+- `--cache-control public,max-age=31536000,immutable` setter cache-controls-headerne til alltid lagre som beskrevet i https://immutablewebapps.org/
+</p>
+</details>
+
+Nå bør fila være tilgjengelig i browseren på <bucket_domain_name>/assets/<id>/main.js
+
+
+* Bygg index.html (`node src-index/main.js`) og kopier index.html til host-bucket.
+
+Om du nå går på `<bucket_domain_name>/index.html` bør du se `Created at <tidspunkt du kjørte index.sh>`. Henting av assets feiler pga feil url.
+
+### CDN
+
+AWS CloudFront er Amazon sin CDN-provider, se [terraform-docs](https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html).
+
+*Vi tar en felles gjennomgang av CloudFront - si i fra når du er kommet hit!*
+
+Test ut endringer i `App.jsx` og deploy ny versjon av assets og index for å sjekke caching og endringer.
+- OBS: Nå kan du bruke `domain_name` outputen fra cloudfront som erstatning for `my-url` i `src-index/main.js`
+
+### Autodeploy av assets fra Github Actions
+
+- Deploy til assets automatisk på push, se (`.github/workflows/nodejs.yml`)
+- sha kan hentes ved environment variabelen GITHUB_SHA
+- Krever opprettelse av ny bruker , se `ci-user.tf`
+
+### Autodeploy til host
+- Utvid push (`.github/workflows/nodejs.yml`) til også å lage og laste opp index.html
+
+
+## Alternativer videre (bruk rekkefølgen som står eller plukk selv om du ønsker noe spesielt)
+* Ta i bruk remote state
+* Lag et prodmiljø
+* Trekk ut til en felles terraform-modul
+* Lag og deploy til miljø ved å trigge en lambda
+* Lag et eget domene i Route 53 slik at du får tilsvarende adresse
+* Trekk ut prodmiljø i en egen account
+* Lag en backend
+* Bytt til workspaces i stedet for mapper for miljøer
+* Bruk moduler fra https://github.com/cloudposse/, feks https://github.com/cloudposse/terraform-aws-cloudfront-cdn
+
+
+
+## Naming i terraform
+
+name på ressursser = tf-*
+navn i terraform   = se link
+
+Tags
+managed_by = terraform
+environment = ci/dev/test/prod/common
+system = tilhørighet
+
+
+I alle moduler:
+Lag en input variabel i alle moduler som heter `tags  , type map(string)`  og så ha en `tags = var.tags` eller vtags = merge(var.tags, { Name = "mytag"})   hvis du trenger å legge til egne
+> Det aller viktigste er egentlig at du skriver moduler som du kan sende tags inn i uten å måtte endre hele modulen hvis du senere kommer på en tag som er kjekk å ha
+
+iam:
+type   = program/person
+
+## Tines todos
+- hvorfor trenger vi public acl på cp når man setter bucket til public?
+
 ## Gode sky-prinsipper
 * Infrastruktur som kode
 * Deploy av kode og infrastruktur skal skje fra ci
@@ -10,36 +118,3 @@ En implementasjon av stukturen fra https://immutablewebapps.org/
 * Den eneste hemmeligheten utenfor infrastrukturen skal egentlig være access-keys
 * Gjør deg kjent med verktøyene i skyplattformen, deres styrker og svakheter, følg med på nyheter :)
 * Om to produkter kan løse samme oppgaven, velg den som gir minst vedlikeholdsarbeide
-
-# Bygging av assets
-
-Oppsettet er slik at `npm run build` er forventet å lage filer som pakkes med alt som trengs og flyttes til `build`.
-Denne mappen må inneholde en fil `main.js` som er tilpasset å kjøre i den `index.html`-filen som genereres i `src-lambda/main.js`.
-
-# AWS-oppsett med Cloudfront og S3
-Se terraform/*env* undermappene for eksakt oppsett
-
-Modulen `terraform-aws-cloudfront-s3-assets` gjør + sync-oppsett på GH-actions gjør følgende 
-
-* Bucket med statiske assets med `cache-control: public, max-age=31536000, immutable`
-* Bucket *test* og *prod* med *kun* index.html og `cache-control: no-store`
-* Cloudfront foran med redirects til rett buckets
-
-
-
-# Alternativer
-* Bytte ut git-sha med [build-numbers](https://github.com/marketplace/actions/build-number-generator)
-* ordentlige bekk-urler til relativt statiske aws-urler
-* tester på deploytid
-* CSS og bilder inn i `npm run build`
-* Backend (helsesjekker og overvåking)
-* Database
-* Pålogging
-* Sikkerhet (vault eller andre, aws systems manager + KMS)
-* terraform outputs som som github-secret
-* terraform på ci
-* secrets lokalt for å kjøre terraform
-* secrets lokalt for å trigge githubaction
-
-# Prodsetting
-Push en tag til github på formatet `x.y.z` og det vil trigge en githubaction som starter en deploy av taggen til produksjon.

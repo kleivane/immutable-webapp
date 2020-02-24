@@ -35,8 +35,12 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         chunk: true,
         title: 'Hotloading index.html for development',
-        template: './index.html'
-      }))
+        template: './dev-index.html',
+        filename: 'dev-index.html'
+      }));
+    config.devServer = {
+      openPage: 'dev-index.html'
+    }
   };
 
   return config;
