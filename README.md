@@ -84,7 +84,6 @@ Test ut endringer i `App.jsx` og deploy ny versjon av assets og index for å sje
 
 - Deploy til assets automatisk på push, se (`.github/workflows/nodejs.yml`)
 - sha kan hentes ved environment variabelen GITHUB_SHA
-- Krever opprettelse av ny bruker , se `ci-user.tf`
 
 ### Autodeploy til host
 - Utvid push (`.github/workflows/nodejs.yml`) til også å lage og laste opp index.html
@@ -93,6 +92,7 @@ Test ut endringer i `App.jsx` og deploy ny versjon av assets og index for å sje
 ## Alternativer videre (bruk rekkefølgen som står eller plukk selv om du ønsker noe spesielt)
 * Ta i bruk remote state
 * Lag et prodmiljø
+* La terraform opprette en githubbruker med rettigheter kun til opplasting i buckets
 * Trekk ut til en felles terraform-modul
 * Lag og deploy til miljø ved å trigge en lambda
 * Lag et eget domene i Route 53 slik at du får tilsvarende adresse
