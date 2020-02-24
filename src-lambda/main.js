@@ -24,12 +24,12 @@ exports.handler = function(event, context, callback) {
              ENV_NAME: '${environment}',
              GIT_SHA: '${sha}',
              API_URL: '${url}'
+             CREATED_AT: '${new Date()}'
          }
          </script>
 
          <!-- application binding -->
          <app-root></app-root>
-         <h3>Deployed at ${new Date()}</h3>
          <!-- fully-qualified static assets -->
          <script src="${url}/assets/${sha}/main.js" type="text/javascript"></script>
 
