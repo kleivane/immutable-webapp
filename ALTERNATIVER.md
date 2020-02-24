@@ -12,3 +12,4 @@
 * secrets lokalt for å kjøre terraform
 * secrets lokalt for å trigge githubaction
 * bedre lambda-testing fra lokal maskin
+* logging på lambdaer

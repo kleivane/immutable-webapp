@@ -24,7 +24,12 @@ const config = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      timestamp: JSON.stringify(moment().utc().format())})
+      timestamp: JSON.stringify(moment().utc().format()),
+      color: function(){
+        const colors = ['OVERSKYET', 'SOLOPPGANG', 'SKYFRITT', 'SOLNEDGANG', 'KVELD', 'NATT', 'REGN', 'GUL', 'GRØNN']
+        return JSON.stringify(colors[Math.floor(Math.random()*colors.length)])
+      }()
+    })
   ]
 };
 
