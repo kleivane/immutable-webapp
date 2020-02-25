@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    steps:
     - name: Use Node.js 12.x
       uses: actions/setup-node@v1
       with:
