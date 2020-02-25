@@ -8,17 +8,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js 12.x
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '12.x'
     - run: npm ci
-    - run: npm run build --if-present
+    - run: npm run build
     - uses: actions/upload-artifact@v1
       with:
         name: build-${{github.sha}}
@@ -41,7 +36,7 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-north-1
-        
+
     - name: Upload assets to assets-bucket
       run: >-
         aws s3 cp build-${{github.sha}} s3://tf-immutable-webapp-assets/assets/${{github.sha}}/
