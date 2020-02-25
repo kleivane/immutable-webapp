@@ -16,6 +16,13 @@ En implementasjon av stukturen fra https://immutablewebapps.org/
 
 Om du allerede nå ser at du vil lage noe under et eget domene, anbefaler jeg å gå inn på AWS Route 53 og opprettet et billig et med en gang. Selv om det sikkert går mye fortere, advarere Amazon om at det kan ta opp til 3 dager.
 
+## Bli kjent
+
+* Skum over https://immutablewebapps.org/
+* Kjør opp appen med `npm install && npm run start`
+* Generer en index.html med `node src-index/main.js`
+* Gjør deg kjent med hvor de forskjellige inputene og env-variablene i appen kommer fra
+
 ## Min første immutable webapp
 
 Felles mål her er en immutable webapp med to S3-buckets og et CDN foran som hoster index.html og kildekode.
