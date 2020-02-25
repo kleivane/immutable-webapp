@@ -3,6 +3,7 @@ En implementasjon av stukturen fra https://immutablewebapps.org/
 
 ## Forberedelser
 
+- Opprett en fork av dette repoet på din egen bruker
 - Sjekk at `node` og `npm` er installert
 - `brew install awscli`
 - `brew install terraform`
@@ -43,7 +44,7 @@ underveise
 
 ### Testmiljø med buckets
 
-Opprett to buckets som skal bli der vi server asset og host fra ved å bruke terraform. Start i `terraform/test/main.tf`.
+Opprett to buckets som skal bli der vi server asset og host fra ved å bruke terraform. Start i `terraform/test/main.tf`. I tillegg til buckets, anbefaler jeg å bruke en `aws_s3_bucket_policy` for å sette objektene i bucketen til public. http://awspolicygen.s3.amazonaws.com/policygen.html
 
 Husk at S3-bucketnavn må være unike innenfor en region!
 
@@ -64,7 +65,6 @@ Se [AWS-cli-docs](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) f
 <p>
 
 - bruk følgende S3-uri `s3://bucket-name/assets/1/`
-- `--acl public-read` optionen setter alle filene til public
 - `--recursive` laster opp hele mappen
 - `--cache-control public,max-age=31536000,immutable` setter cache-controls-headerne til alltid lagre som beskrevet i https://immutablewebapps.org/
 </p>
@@ -79,13 +79,14 @@ Om du nå går på `<bucket_domain_name>/index.html` bør du se en kjørende app
 <p>
 
 - Bruk `index.html` både som localPath og `s3://bucket-host-name/index.html` som S3Uri ettersom vi kun laster opp en fil
-- `--acl public-read` optionen setter alle filene til public
 - `--cache-control no-store` setter cache-controls-headerne til aldri lagre som beskrevet i https://immutablewebapps.org/
 </p>
 </details>
 
 
 ### Autodeploy av assets med Github Actions
+
+*Vi tar en kjapp felles gjennomgang av github actions - si i fra når du er kommet hit!*
 
 Det finnes en githook som linter yml-filer for å slippe unna enkelte yml-feil i workflow-definisjonen.
 Om du ønsker å ta den i bruk kan du sette `git config core.hooksPath .githooks`
@@ -121,6 +122,8 @@ Test ut endringer i `App.jsx` og deploy ny versjon av assets og index for å sje
 * Lag en backend
 * Test ut [workspaces](https://www.terraform.io/docs/state/workspaces.html) for terraform-endringer
 * Bruk moduler fra https://github.com/cloudposse/, feks https://github.com/cloudposse/terraform-aws-cloudfront-cdn
+* Flytt cachecontrol fra hver enkelt fil til enten cloudfront eller lambda@edge
+* bruk en annen skyprovider
 
 
 # Notater
@@ -130,7 +133,7 @@ Test ut endringer i `App.jsx` og deploy ny versjon av assets og index for å sje
 * Klone repoet git clone <ssh> starterpack
 * Slett .git-mappa
 * Slett stuff under terraform (behold test/main og test/output)
-* Slett stuff under .github (behold nodejs0.yml)
+* Slett stuff under .github (behold nodejs0.yml, og triggere xxxxx)
 * Lag et nytt repo på github
 * Slett notatene her
 * Kjør git init, add, commit, push til nytt repo
@@ -165,3 +168,4 @@ type   = program/person
 
 ## ?
 - hvorfor trenger vi public acl på cp når man setter bucket til public?
+- kan man sette cachecontrol på bucketnivå?
