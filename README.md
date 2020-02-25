@@ -80,7 +80,7 @@ Om du nå går på `<bucket_domain_name>/index.html` bør du se en kjørende app
 
 
 ### Autodeploy til host
-- Utvid push `.github/workflows/nodejs.yml` til også å lage og laste opp index.html.
+- Utvid `.github/workflows/nodejs.yml` til også å lage og laste opp index.html. Sjekk ut tilgjengelige variable for node i [docs](https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables).
 
 
 ### CDN
