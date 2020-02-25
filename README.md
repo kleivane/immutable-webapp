@@ -178,6 +178,7 @@ Lag en input variabel i alle moduler som heter `tags  , type map(string)`  og s�
 iam:
 type   = program/person
 
-## ?
-- hvorfor trenger vi public acl på cp når man setter bucket til public?
+## Spørsmål?
+- hvorfor trenger vi public acl på cp når man setter bucket til public? -> det virker som om canned acl tilhører et gammelt oppsett på aws s2 før iam-policies var lansert. Anbefalingene jeg har funnet frem preferer bucket
+policies over acl. Sistnevnte må også settes både på bucket og på objektnivå, noe som er ganske forvirrende.
 - kan man sette cachecontrol på bucketnivå?
