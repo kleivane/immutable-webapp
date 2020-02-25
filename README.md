@@ -42,11 +42,12 @@ Anbefalt terraform-output:
 
 ### Manuell opplasting av filer
 
-Bygg assets manuelt `npm run build` og last opp alt innholdet i build-mappen til asset-bucketen under navnet `assets/<id>`. Velg en tilfeldig id for testen, senere skal vi bruke githash! Test at fila blir tilgjengelig i browseren på <bucket_domain_name>/assets/<id>/main.js og sett rett cachcontrol-headers.
+Bygg assets manuelt `npm run build` og last opp alt innholdet i build-mappen til asset-bucketen under navnet `assets/<id>`. Velg en tilfeldig id for testen, senere skal vi bruke githash! Test at fila blir tilgjengelig i browseren på `<bucket_domain_name>/assets/<id>/main.js` og sett rett cachcontrol-headers.
 
 
 `aws s3 cp <LocalPath> <S3Uri>`
-[AWS-cli-docs](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) for `aws s3 cp`
+
+Se [AWS-cli-docs](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) for `aws s3 cp`
 
 <details><summary>Tips</summary>
 <p>
@@ -71,6 +72,17 @@ Om du nå går på `<bucket_domain_name>/index.html` bør du se en kjørende app
 </p>
 </details>
 
+
+### Autodeploy av assets med Github Actions
+
+- Deploy til assets kan automatisk på push, se (`.github/workflows/nodejs.yml`)
+- sha kan hentes ved environment variabelen GITHUB_SHA
+
+
+### Autodeploy til host
+- Utvid push (`.github/workflows/nodejs.yml`) til også å lage og laste opp index.html.
+
+
 ### CDN
 
 AWS CloudFront er Amazon sin CDN-provider, se [terraform-docs](https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html).
@@ -80,13 +92,6 @@ AWS CloudFront er Amazon sin CDN-provider, se [terraform-docs](https://www.terra
 Test ut endringer i `App.jsx` og deploy ny versjon av assets og index for å sjekke caching og endringer.
 - OBS: Nå kan du bruke `domain_name` outputen fra cloudfront som erstatning for `my-url` i `src-index/main.js`
 
-### Autodeploy av assets fra Github Actions
-
-- Deploy til assets automatisk på push, se (`.github/workflows/nodejs.yml`)
-- sha kan hentes ved environment variabelen GITHUB_SHA
-
-### Autodeploy til host
-- Utvid push (`.github/workflows/nodejs.yml`) til også å lage og laste opp index.html
 
 
 ## Alternativer videre (bruk rekkefølgen som står eller plukk selv om du ønsker noe spesielt)
