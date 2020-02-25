@@ -15,12 +15,34 @@ locals {
 
 resource "aws_s3_bucket" "test" {
   bucket = "tf-immutable-webapp-test"
-  acl    = "public-read"
 
   tags = {
     Name        = local.environment
     Environment = local.environment
   }
+}
+
+
+resource "aws_s3_bucket_policy" "public" {
+  bucket = aws_s3_bucket.test.id
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Id": "Policy1582630604704",
+  "Statement": [
+    {
+      "Sid": "Stmt1582630385628",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": "${aws_s3_bucket.test.arn}/*"
+    }
+  ]
+}
+POLICY
 }
 
 
@@ -67,7 +89,7 @@ resource "aws_route53_record" "ipv6" {
 module "deployer" {
   source = "../common/modules/terraform-aws-lambda-s3-deployer"
 
-  src_version = "0.0.8"
+  src_version = "0.1.0"
   api_url = module.immutable_cloudfront.distribution.domain_name
   bucket = {
     id = aws_s3_bucket.test.id

@@ -44,9 +44,21 @@ underveise
 
 ### Testmiljø med buckets
 
-Opprett to buckets som skal bli der vi server asset og host fra ved å bruke terraform. Start i `terraform/test/main.tf`. I tillegg til buckets, anbefaler jeg å bruke en `aws_s3_bucket_policy` for å sette objektene i bucketen til public. http://awspolicygen.s3.amazonaws.com/policygen.html
+Opprett to buckets som skal bli der vi server asset og host fra ved å bruke terraform. Start i `terraform/test/main.tf`. I tillegg til buckets, anbefaler jeg å bruke en `aws_s3_bucket_policy` for å sette objektene i bucketen til public. For å få generert en public policy, bruk http://awspolicygen.s3.amazonaws.com/policygen.html
 
 Husk at S3-bucketnavn må være unike innenfor en region!
+
+<details><summary>Tips</summary>
+<p>
+
+- Principal `*` dekker alle brukere også uinloggede
+- bruk attributet `arn` fra `aws_s3_bucket` som input til policyen
+- bruk `*` som key_name slik at policyen dekker alle filer
+- `"s3:GetObject"` er actionen som trengs for å lese en fil
+</p>
+</details>
+
+Tips
 
 Anbefalt terraform-output:
 * bucket_domain_name
@@ -91,7 +103,7 @@ Om du nå går på `<bucket_domain_name>/index.html` bør du se en kjørende app
 Det finnes en githook som linter yml-filer for å slippe unna enkelte yml-feil i workflow-definisjonen.
 Om du ønsker å ta den i bruk kan du sette `git config core.hooksPath .githooks`
 
-- Kopier til assets kan automatisk på push, se `.github/workflows/nodejs.yml`
+- Bygg og kopier filer til assets-bucketen på hver push, se `.github/workflows/nodejs.yml`
 - I run-delen av en githubaction kan man hente ut commit med `${{github.sha}}`, se [docs](https://help.github.com/en/actions/reference/contexts-and-expression-syntax-for-github-actions)
 
 
