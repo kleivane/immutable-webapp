@@ -7,11 +7,12 @@ En implementasjon av stukturen fra https://immutablewebapps.org/
 - `brew install terraform`
 - `git --version` er større en 2.9 (om du har lavere versjon, drop githook som er nevnt senere)
 - Opprett en AWS-konto. (*jeg har valgt region eu-north-1 (Stockholm)* ) Om du legger inn betalingskort, så vær klar over at du betaler for enkelte tjenester, følg med på Billing-service
-- Opprett en IAM-bruker med navn: `terraform` med `Programmatic access`
+- Opprett en ny bruker i [IAM](https://console.aws.amazon.com/iam/home?#/users)
+    - Add user: username `terraform` og access type `Programmatic access`
     - Permissions: `Attach existing policies directly` og velg policyen med policy name `AdministratorAccess`
     - Tags: name = `system` og value=`terraform`
     - Etter Create,husk å last ned access-key og secret.
-- Kjør `aws configure` med ACCESS_KEY_ID og SECRET_ACCESS_KEY fra brukeren over.
+- Kjør kommandoen `aws configure` med ACCESS_KEY_ID og SECRET_ACCESS_KEY som du fikk fra brukeren over.
     - Kommandoen `aws iam get-user` kan brukes som en ping og sjekk av alt ok!
 - Les gjennom https://immutablewebapps.org/ så har du essensen i hva vi skal lage
 
@@ -19,7 +20,7 @@ Om du allerede nå ser at du vil lage noe under et eget domene, anbefaler jeg å
 
 ## Bli kjent
 
-* Les https://immutablewebapps.org/ om du ikke har gjort det allerede 
+* Les https://immutablewebapps.org/ om du ikke har gjort det allerede
 * Kjør opp appen med `npm install && npm run start`
 * Generer en index.html med `node src-index/main.js`
 * Gjør deg kjent med hvor de forskjellige inputene og env-variablene i appen kommer fra
