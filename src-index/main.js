@@ -1,8 +1,8 @@
 const fs = require('fs');
 
-const sha = process.env.GITHUB_SHA || 1;
+const sha = 1;
 const environment =  "test";
-const url = 'https://"my-bucket-url' ;
+const url = 'https://my-bucket-url' ;
 const date = new Date().toISOString();
 
 const index = `<!doctype html>
