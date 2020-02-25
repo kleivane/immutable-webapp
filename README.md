@@ -13,12 +13,13 @@ En implementasjon av stukturen fra https://immutablewebapps.org/
     - Etter Create,husk å last ned access-key og secret.
 - Kjør `aws configure` med ACCESS_KEY_ID og SECRET_ACCESS_KEY fra brukeren over.
     - Kommandoen `aws iam get-user` kan brukes som en ping og sjekk av alt ok!
+- Les gjennom https://immutablewebapps.org/ så har du essensen i hva vi skal lage
 
 Om du allerede nå ser at du vil lage noe under et eget domene, anbefaler jeg å gå inn på AWS Route 53 og opprettet et billig et med en gang. Selv om det sikkert går mye fortere, advarere Amazon om at det kan ta opp til 3 dager.
 
 ## Bli kjent
 
-* Skum over https://immutablewebapps.org/
+* Les https://immutablewebapps.org/ om du ikke har gjort det allerede 
 * Kjør opp appen med `npm install && npm run start`
 * Generer en index.html med `node src-index/main.js`
 * Gjør deg kjent med hvor de forskjellige inputene og env-variablene i appen kommer fra
@@ -50,7 +51,7 @@ Anbefalt terraform-output:
 
 ### Manuell opplasting av filer
 
-Bygg assets manuelt `npm run build` og last opp alt innholdet i build-mappen til asset-bucketen under navnet `assets/<id>`. Velg en tilfeldig id for testen, senere skal vi bruke githash! Test at fila blir tilgjengelig i browseren på `<bucket_domain_name>/assets/<id>/main.js` og sett rett cachcontrol-headers.
+Bygg assets manuelt `npm run build` og last opp alt innholdet i build-mappen til asset-bucketen under navnet `assets/id`. Velg en tilfeldig id for testen, senere skal vi bruke githash! Test at fila blir tilgjengelig i browseren på `<bucket_domain_name>/assets/id/main.js` og sett rett cachcontrol-headers.
 
 
 `aws s3 cp <LocalPath> <S3Uri>`
@@ -86,12 +87,13 @@ Om du nå går på `<bucket_domain_name>/index.html` bør du se en kjørende app
 Det finnes en githook som linter yml-filer for å slippe unna enkelte yml-feil i workflow-definisjonen.
 Om du ønsker å ta den i bruk kan du sette `git config core.hooksPath .githooks`
 
-- Deploy til assets kan automatisk på push, se `.github/workflows/nodejs.yml`
+- Kopier til assets kan automatisk på push, se `.github/workflows/nodejs.yml`
 - I run-delen av en githubaction kan man hente ut commit med `${{github.sha}}`, se [docs](https://help.github.com/en/actions/reference/contexts-and-expression-syntax-for-github-actions)
 
 
 ### Autodeploy til host
-- Utvid `.github/workflows/nodejs.yml` til også å lage og laste opp index.html. Sjekk ut tilgjengelige variable for node i [docs](https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables).
+- Utvid `.github/workflows/nodejs.yml` til også å lage og kopiere opp index.html. Sjekk ut tilgjengelige variable for node i [docs](https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables).
+
 
 
 ### CDN
@@ -108,16 +110,37 @@ Test ut endringer i `App.jsx` og deploy ny versjon av assets og index for å sje
 ## Alternativer videre (bruk rekkefølgen som står eller plukk selv om du ønsker noe spesielt)
 * Ta i bruk remote state
 * Lag et prodmiljø
-* La terraform opprette en githubbruker med rettigheter kun til opplasting i buckets
+* La terraform opprette en iam-bruker som bruker av github med rettigheter kun til opplasting i buckets
 * Trekk ut til en felles terraform-modul
-* Lag og deploy til miljø ved å trigge en lambda
-* Lag et eget domene i Route 53 slik at du får tilsvarende adresse
-* Trekk ut prodmiljø i en egen account
+* Trekk ut bygging av index.html til en lambda
+* Lag et eget domene i Route 53 slik at du har en egen url
+* Trekk ut prodmiljø i en egen AWS-account
 * Lag en backend
-* Bytt til workspaces i stedet for mapper for miljøer
+* Test ut [workspaces](https://www.terraform.io/docs/state/workspaces.html) for terraform-endringer
 * Bruk moduler fra https://github.com/cloudposse/, feks https://github.com/cloudposse/terraform-aws-cloudfront-cdn
 
 
+# Notater
+
+## Lage Starterpack
+
+* Klone repoet git clone <ssh> starterpack
+* Slett .git-mappa
+* Slett stuff under terraform (behold test/main og test/output)
+* Slett stuff under .github (behold nodejs0.yml)
+* Lag et nytt repo på github
+* Slett notatene her
+* Kjør git init, add, commit, push til nytt repo
+
+## Gode sky-prinsipper
+* Infrastruktur som kode
+* Deploy av kode og infrastruktur skal skje fra ci
+* Utviklere skal ha rettigheter som ikke stopper dem fra å teste og utforske
+* Prod skal ha annen tilgangsstyring enn test
+* Bygget kode skal kunne deployes til alle miljøer - config skal leve et annet sted
+* Den eneste hemmeligheten utenfor infrastrukturen skal egentlig være access-keys
+* Gjør deg kjent med verktøyene i skyplattformen, deres styrker og svakheter, følg med på nyheter :)
+* Om to produkter kan løse samme oppgaven, velg den som gir minst vedlikeholdsarbeide
 
 ## Naming i terraform
 
@@ -137,15 +160,5 @@ Lag en input variabel i alle moduler som heter `tags  , type map(string)`  og s�
 iam:
 type   = program/person
 
-## Tines todos
+## ?
 - hvorfor trenger vi public acl på cp når man setter bucket til public?
-
-## Gode sky-prinsipper
-* Infrastruktur som kode
-* Deploy av kode og infrastruktur skal skje fra ci
-* Utviklere skal ha rettigheter som ikke stopper dem fra å teste og utforske
-* Prod skal ha annen tilgangsstyring enn test
-* Bygget kode skal kunne deployes til alle miljøer - config skal leve et annet sted
-* Den eneste hemmeligheten utenfor infrastrukturen skal egentlig være access-keys
-* Gjør deg kjent med verktøyene i skyplattformen, deres styrker og svakheter, følg med på nyheter :)
-* Om to produkter kan løse samme oppgaven, velg den som gir minst vedlikeholdsarbeide
