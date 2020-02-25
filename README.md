@@ -5,6 +5,7 @@ En implementasjon av stukturen fra https://immutablewebapps.org/
 
 - `brew install awscli`
 - `brew install terraform`
+- `git --version` er større en 2.9 (om du har lavere versjon, drop githook som er nevnt senere)
 - Opprett en AWS-konto. (*jeg har valgt region eu-north-1 (Stockholm)* ) Om du legger inn betalingskort, så vær klar over at du betaler for enkelte tjenester, følg med på Billing-service
 - Opprett en IAM-bruker med navn: `terraform` med `Programmatic access`
     - Permissions: `Attach existing policies directly` og velg policyen med policy name `AdministratorAccess`
@@ -74,6 +75,9 @@ Om du nå går på `<bucket_domain_name>/index.html` bør du se en kjørende app
 
 
 ### Autodeploy av assets med Github Actions
+
+Det finnes en githook som linter yml-filer for å slippe unna enkelte yml-feil i workflow-definisjonen.
+Om du ønsker å ta den i bruk kan du sette `git config core.hooksPath .githooks`
 
 - Deploy til assets kan automatisk på push, se `.github/workflows/nodejs.yml`
 - I run-delen av en githubaction kan man hente ut commit med `${{github.sha}}`, se [docs](https://help.github.com/en/actions/reference/contexts-and-expression-syntax-for-github-actions)

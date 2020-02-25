@@ -5,7 +5,7 @@
 # exit with non-zero status after issuing an appropriate message if
 # it wants to stop the commit.
 #
-LIST=$( git diff --name-only --cached --diff-filter=ACM )
+LIST=$( git diff --name-only --cached --diff-filter=ACM -- *.{yml,yaml} )
 
 if [ -n "$LIST" ]; then
 		node_modules/yaml-lint/cli.js $LIST
