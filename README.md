@@ -3,6 +3,7 @@ En implementasjon av stukturen fra https://immutablewebapps.org/
 
 ## Forberedelser
 
+- Sjekk at `node` og `npm` er installert
 - `brew install awscli`
 - `brew install terraform`
 - `git --version` er større en 2.9 (om du har lavere versjon, drop githook som er nevnt senere)
@@ -62,7 +63,7 @@ Se [AWS-cli-docs](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) f
 <details><summary>Tips</summary>
 <p>
 
-- bruk følgende S3-uri `s3://<bucket-name>/assets/1/`
+- bruk følgende S3-uri `s3://bucket-name/assets/1/`
 - `--acl public-read` optionen setter alle filene til public
 - `--recursive` laster opp hele mappen
 - `--cache-control public,max-age=31536000,immutable` setter cache-controls-headerne til alltid lagre som beskrevet i https://immutablewebapps.org/
@@ -76,7 +77,8 @@ Om du nå går på `<bucket_domain_name>/index.html` bør du se en kjørende app
 
 <details><summary>Tips</summary>
 <p>
-- Bruk index.html både som localPath og `s3://<bucket-host-name>/index.html` som S3Uri ettersom vi kun laster opp en fil
+
+- Bruk `index.html` både som localPath og `s3://bucket-host-name/index.html` som S3Uri ettersom vi kun laster opp en fil
 - `--acl public-read` optionen setter alle filene til public
 - `--cache-control no-store` setter cache-controls-headerne til aldri lagre som beskrevet i https://immutablewebapps.org/
 </p>
