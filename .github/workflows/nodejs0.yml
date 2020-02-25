@@ -1,4 +1,4 @@
-name: [Starter] Build and upload assets and index
+name: Starterpack - Build and upload assets and index
 
 on:
   push:

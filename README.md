@@ -75,12 +75,12 @@ Om du nå går på `<bucket_domain_name>/index.html` bør du se en kjørende app
 
 ### Autodeploy av assets med Github Actions
 
-- Deploy til assets kan automatisk på push, se (`.github/workflows/nodejs.yml`)
-- sha kan hentes ved environment variabelen GITHUB_SHA
+- Deploy til assets kan automatisk på push, se `.github/workflows/nodejs.yml`
+- I run-delen av en githubaction kan man hente ut commit med `${{github.sha}}`, se [docs](https://help.github.com/en/actions/reference/contexts-and-expression-syntax-for-github-actions)
 
 
 ### Autodeploy til host
-- Utvid push (`.github/workflows/nodejs.yml`) til også å lage og laste opp index.html.
+- Utvid push `.github/workflows/nodejs.yml` til også å lage og laste opp index.html.
 
 
 ### CDN
