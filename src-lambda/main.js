@@ -44,8 +44,7 @@ exports.handler = function(event, context, callback) {
           Key : 'index.html',
           Body : index,
           CacheControl: 'no-store',
-          ContentType: "text/html",
-          ACL: "public-read"
+          ContentType: "text/html"
       }
 
   return s3.putObject(params).promise();
