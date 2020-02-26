@@ -130,6 +130,7 @@ Test ut endringer i `App.jsx` og deploy ny versjon av assets og index for å sje
 * Trekk ut til en felles terraform-modul
 * Trekk ut bygging av index.html til en lambda
 * Lag et eget domene i Route 53 slik at du har en egen url
+* Skriv tester! https://terratest.gruntwork.io/
 * Trekk ut prodmiljø i en egen AWS-account
 * Lag en backend
 * Test ut [workspaces](https://www.terraform.io/docs/state/workspaces.html) for terraform-endringer

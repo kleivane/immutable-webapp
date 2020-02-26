@@ -10,9 +10,9 @@ resource "aws_s3_bucket" "assets" {
   acl    = "public-read"
 
   tags = {
-    system        = "immutable-webapp"
-    environment   = "common"
-    managed_by    = "terraform"
+    system      = "immutable-webapp"
+    environment = "common"
+    managed_by  = "terraform"
   }
 }
 
@@ -24,9 +24,9 @@ resource "aws_s3_bucket" "host" {
   acl    = "public-read"
 
   tags = {
-    system        = "immutable-webapp"
-    environment   = local.env
-    managed_by    = "terraform"
+    system      = "immutable-webapp"
+    environment = local.env
+    managed_by  = "terraform"
   }
 }
 
@@ -55,7 +55,7 @@ resource "aws_cloudfront_distribution" "cloudfront_env" {
     }
 
 
-# egen bucket for index.html	    target_origin_id       = aws_s3_bucket.host.id
+    # egen bucket for index.html	    target_origin_id       = aws_s3_bucket.host.id
     viewer_protocol_policy = "redirect-to-https"
   }
 
@@ -88,16 +88,16 @@ resource "aws_cloudfront_distribution" "cloudfront_env" {
 
   tags = {
     environment = local.env
-    system        = "immutable-webapp"
-    managed_by    = "terraform"
+    system      = "immutable-webapp"
+    managed_by  = "terraform"
   }
 
   viewer_certificate {
-    cloudfront_default_certificate  = true
+    cloudfront_default_certificate = true
   }
 }
 
-output assets{
+output assets {
   value       = aws_s3_bucket.host.bucket_domain_name
   description = "bucket domain name for test'"
 }

@@ -3,7 +3,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "eu-north-1"
+  region  = "eu-north-1"
   version = "~> 2.47"
 }
 
@@ -21,6 +21,7 @@ resource "aws_s3_bucket" "test" {
     Environment = local.environment
   }
 }
+
 
 
 resource "aws_s3_bucket_policy" "public" {
@@ -49,15 +50,15 @@ POLICY
 module "immutable_cloudfront" {
   source = "git@github.com:kleivane/terraform-aws-cloudfront-s3-assets.git?ref=0.3.0"
 
-  bucket_origin_id = "S3-${aws_s3_bucket.test.id}"
+  bucket_origin_id   = "S3-${aws_s3_bucket.test.id}"
   bucket_domain_name = aws_s3_bucket.test.bucket_regional_domain_name
-  environment= local.environment
+  environment        = local.environment
 
   aliases = [local.url]
 }
 
 data "aws_route53_zone" "primary" {
-  name         = "skysett.net."
+  name = "skysett.net."
 }
 
 resource "aws_route53_record" "ipv4" {
@@ -90,11 +91,11 @@ module "deployer" {
   source = "../common/modules/terraform-aws-lambda-s3-deployer"
 
   src_version = "0.1.0"
-  api_url = module.immutable_cloudfront.distribution.domain_name
+  api_url     = module.immutable_cloudfront.distribution.domain_name
   bucket = {
-    id = aws_s3_bucket.test.id
+    id  = aws_s3_bucket.test.id
     arn = aws_s3_bucket.test.arn
   }
 
-  environment= local.environment
+  environment = local.environment
 }
