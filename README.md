@@ -1,5 +1,7 @@
 # Immutable-webapp
-En implementasjon av stukturen fra https://immutablewebapps.org/
+En implementasjon av stukturen fra https://immutablewebapps.org/ .
+
+[Slides](https://docs.google.com/presentation/d/1gcnwG0NzTiAlQ9NrjWCTa6c0yCiKYEkowBLn9BSKbjA/present)
 
 ## Forberedelser
 
@@ -16,13 +18,11 @@ En implementasjon av stukturen fra https://immutablewebapps.org/
     - Etter Create,husk å last ned access-key og secret.
 - Kjør kommandoen `aws configure` med ACCESS_KEY_ID og SECRET_ACCESS_KEY som du fikk fra brukeren over.
     - Kommandoen `aws iam get-user` kan brukes som en ping og sjekk av alt ok!
-- Les gjennom https://immutablewebapps.org/ så har du essensen i hva vi skal lage
 
 Om du allerede nå ser at du vil lage noe under et eget domene, anbefaler jeg å gå inn på AWS Route 53 og opprettet et billig et med en gang. Selv om det sikkert går mye fortere, advarere Amazon om at det kan ta opp til 3 dager.
 
 ## Bli kjent
 
-* Les https://immutablewebapps.org/ om du ikke har gjort det allerede
 * Kjør opp appen med `npm install && npm run start`
 * Generer en index.html med `node src-index/main.js`
 * Gjør deg kjent med hvor de forskjellige inputene og env-variablene i appen kommer fra
@@ -98,8 +98,6 @@ Om du nå går på `<bucket_domain_name>/index.html` bør du se en kjørende app
 
 ### Autodeploy av assets med Github Actions
 
-*Vi tar en kjapp felles gjennomgang av github actions - si i fra når du er kommet hit!*
-
 Det finnes en githook som linter yml-filer for å slippe unna enkelte yml-feil i workflow-definisjonen.
 Om du ønsker å ta den i bruk kan du sette `git config core.hooksPath .githooks`
 
@@ -111,12 +109,11 @@ Om du ønsker å ta den i bruk kan du sette `git config core.hooksPath .githooks
 - Utvid `.github/workflows/nodejs.yml` til også å lage og kopiere opp index.html. Sjekk ut tilgjengelige variable for node i [docs](https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables).
 
 
-
 ### CDN
 
 AWS CloudFront er Amazon sin CDN-provider, se [terraform-docs](https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html).
 
-*Vi tar en felles gjennomgang av CloudFront - si i fra når du er kommet hit!*
+* TODO  tine må fylle ut tips herfra *
 
 Test ut endringer i `App.jsx` og deploy ny versjon av assets og index for å sjekke caching og endringer.
 - OBS: Nå kan du bruke `domain_name` outputen fra cloudfront som erstatning for `my-url` i `src-index/main.js`
@@ -124,19 +121,29 @@ Test ut endringer i `App.jsx` og deploy ny versjon av assets og index for å sje
 
 
 ## Alternativer videre (bruk rekkefølgen som står eller plukk selv om du ønsker noe spesielt)
-* Ta i bruk remote state
+
+Cirka frem til punktet "Lag et eget domene" kan du finne et løsningsforslag i repoet https://github.com/kleivane/immutable-webapp .
+
 * Lag et prodmiljø
-* La terraform opprette en iam-bruker som bruker av github med rettigheter kun til opplasting i buckets
+* La terraform opprette en [iam-bruker](https://www.terraform.io/docs/providers/aws/r/iam_user.html) som bruker av github med rettigheter kun til opplasting i buckets. [Rettighetssimulatoren](http://awspolicygen.s3.amazonaws.com/policygen.html) for iam kan hjelpe litt
+* Ta i bruk remote [backend i S3 ](https://www.terraform.io/docs/backends/types/s3.html)
 * Trekk ut til en felles terraform-modul
 * Trekk ut bygging av index.html til en lambda
+    * Lambdaen trenger kildekode i egen bucket
+    * La tagging i github `lambda-x.y.z` trigge bygging og release av ny kildekode
+    * Provisjoner lambda med terraform pr miljø og send inn versjon av kildekoden som skal brukes
 * Lag et eget domene i Route 53 slik at du har en egen url
+    * Lag sertifikat fra certification manager
+    * Legg inn alias og sertifikat (`viewer_certificate`) i cloudfront. Merk av `ssl_support_method = sni-only` for å unngå ekstra kostnader!
+    * Opprett alias i route53 med en ny [record](https://www.terraform.io/docs/providers/aws/r/route53_record.html)
+    * *Alias record typically have a type of A or AAAA, but they work like a CNAME record*
 * Skriv tester! https://terratest.gruntwork.io/
 * Trekk ut prodmiljø i en egen AWS-account
-* Lag en backend
+* Rull ut dockercontaineren fra https://github.com/kleivane/static-json
 * Test ut [workspaces](https://www.terraform.io/docs/state/workspaces.html) for terraform-endringer
 * Bruk moduler fra https://github.com/cloudposse/, feks https://github.com/cloudposse/terraform-aws-cloudfront-cdn
-* Flytt cachecontrol fra hver enkelt fil til enten cloudfront eller lambda@edge
-* bruk en annen skyprovider
+* Flytt cachecontrol fra hver enkelt fil til lambda@edge
+* Bruk en annen skyprovider
 
 
 # Notater
