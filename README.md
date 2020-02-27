@@ -5,7 +5,7 @@ En implementasjon av stukturen fra https://immutablewebapps.org/ .
 
 ## Forberedelser
 
-- Opprett en fork av dette repoet på din egen bruker
+- Opprett en fork av dette repoet på din egen bruker og klon det ned på egen maskin
 - Sjekk at `node` og `npm` er installert
 - `brew install awscli`
 - `brew install terraform`
