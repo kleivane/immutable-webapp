@@ -161,7 +161,7 @@ Cirka frem til punktet "Lag et eget domene" kan du finne et løsningsforslag i r
 
 * Klone repoet git clone <ssh> starterpack
 * Slett .git-mappa
-* Slett stuff under terraform (behold test/main og test/output)
+* Slett stuff under terraform (behold test/main og test/output og test/p)
 * Slett stuff under .github (behold nodejs0.yml, og triggere xxxxx)
 * Lag et nytt repo på github
 * Slett notatene her
