@@ -50,27 +50,28 @@ underveise
 
 ### Testmiljø med buckets
 
-Opprett to [buckets](https://www.terraform.io/docs/providers/aws/r/s3_bucket.html) som skal bli der vi server asset og host fra ved å bruke terraform. Start i `terraform/test/main.tf`.
+Opprett to [buckets](https://www.terraform.io/docs/providers/aws/r/s3_bucket.html) som skal bli der vi server asset og host fra ved å bruke terraform. Start i `terraform/test/main.tf`. Husk at S3-bucketnavn må være unike innenfor en region!
+
+Anbefalt terraform-output for begge buckets:
+* bucket_domain_name - denne lenken kan du bruke til å aksessere filene du har lastet opp
+* id - navnet på bucketen du har opprettet
+
+Når begge bucket er oppprettet uten mer oppsett, og du kan gå inn i konsollen på web og manuelt laste opp en tilfeldig fil. Den vil ikke tilgjengelig på internett via `bucket_domain_name/filnavn`, ettersom default-policyen er at bucket er private. Vi kan konfigurere public tilgang ved å bruke acl-parameteret på en bucket eller en bucket policy. Sistnevnte er anbefalt av AWS  ettersom bucketacl er et eldre og skjørere konsept.
+
+Opprett bucketpolicies for begge bøttene ved å bruke [`aws_s3_bucket_policy`](https://www.terraform.io/docs/providers/aws/r/s3_bucket_policy.html). I policy-atributtet kan du bruke en [templatefile](https://www.terraform.io/docs/configuration/functions/templatefile.html) med fila `policy/public_bucket.json.tpl`. Denne trenger en variabel `bucket_arn`. Bruk atributtet fra bucketen for å sende inn rett arn.
 
 
-Gjør bucketene public
-I tillegg til ., anbefaler jeg å bruke en `aws_s3_bucket_policy` for å sette objektene i bucketen til public. For å få generert en public policy, bruk http://awspolicygen.s3.amazonaws.com/policygen.html
-
-Husk at S3-bucketnavn må være unike innenfor en region!
-
-<details><summary>Tips</summary>
+<details><summary>Forklaring til public_bucket.json</summary>
 <p>
-
-- Principal `*` dekker alle brukere også uinloggede
-- bruk attributet `arn` fra `aws_s3_bucket` som input til policyen
-- bruk `*` som key_name slik at policyen dekker alle filer
-- `"s3:GetObject"` er actionen som trengs for å lese en fil
+- Linje 2-6 er bolierplate
+- Effect er enten Allow eller Deny. Her bruker vi allow for å tillate public acess
+- Principal `*` dekker alle brukere, også uinloggede
+- Action `"s3:GetObject"` er handlingen vil tillater, nemlig å lese en enkelt fil
+- Resource er hvilken ressurss i AWS policyreglen gjelder til. Her spesifierer vil at det  gjelder `${bucket_arn}/*`, det vil si alle filer i bucketen med arn'en vi sender inn
 </p>
 </details>
 
-Anbefalt terraform-output:
-* bucket_domain_name
-* id
+
 
 ### Manuell opplasting av filer
 
