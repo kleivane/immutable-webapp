@@ -58,8 +58,6 @@ Husk at S3-bucketnavn må være unike innenfor en region!
 </p>
 </details>
 
-Tips
-
 Anbefalt terraform-output:
 * bucket_domain_name
 * id

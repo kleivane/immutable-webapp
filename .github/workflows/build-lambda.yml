@@ -15,6 +15,9 @@ jobs:
     - name: Get build version from tag
       id: release
       run: echo ::set-output name=tag::${GITHUB_REF:17}
+      outputs:
+        tag:
+          description: 'The semantic version postfixing lambda- in the tagname'
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
