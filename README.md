@@ -10,10 +10,10 @@ En implementasjon av stukturen fra https://immutablewebapps.org/ .
 - `brew install awscli`
 - `brew install terraform`
 - `git --version` er større en 2.9 (om du har lavere versjon, drop githook som er nevnt senere)
-- Opprett en AWS-konto på https://aws.amazon.com/. 
+- Opprett en AWS-konto på https://aws.amazon.com/.
     - Bruk Basic-versjonen
     - Legg inn betalingskort <- følg med på kostnadene og husk å slette infrastrukturen som koster penger når dagen er ferdig
-- Opprett en ny bruker i [IAM](https://console.aws.amazon.com/iam/home?#/users). 
+- Opprett en ny bruker i [IAM](https://console.aws.amazon.com/iam/home?#/users).
     - Add user: username `terraform` og access type `Programmatic access`
     - Permissions: `Attach existing policies directly` og velg policyen med policy name `AdministratorAccess`
     - Tags: name = `system` og value=`terraform`
@@ -25,6 +25,10 @@ En implementasjon av stukturen fra https://immutablewebapps.org/ .
 Om du allerede nå ser at du vil lage noe under et eget domene, anbefaler jeg å gå inn på AWS Route 53 og opprettet et billig et med en gang. Selv om det sikkert går mye fortere, advarere Amazon om at det kan ta opp til 3 dager.
 
 ## Bli kjent
+
+### Om appen
+
+### Lokal oppstart
 
 * Kjør opp appen med `npm install && npm run start`
 * Generer en index.html med `node src-index/main.js`
@@ -46,7 +50,11 @@ underveise
 
 ### Testmiljø med buckets
 
-Opprett to [buckets](https://www.terraform.io/docs/providers/aws/r/s3_bucket.html) som skal bli der vi server asset og host fra ved å bruke terraform. Start i `terraform/test/main.tf`. I tillegg til ., anbefaler jeg å bruke en `aws_s3_bucket_policy` for å sette objektene i bucketen til public. For å få generert en public policy, bruk http://awspolicygen.s3.amazonaws.com/policygen.html
+Opprett to [buckets](https://www.terraform.io/docs/providers/aws/r/s3_bucket.html) som skal bli der vi server asset og host fra ved å bruke terraform. Start i `terraform/test/main.tf`.
+
+
+Gjør bucketene public
+I tillegg til ., anbefaler jeg å bruke en `aws_s3_bucket_policy` for å sette objektene i bucketen til public. For å få generert en public policy, bruk http://awspolicygen.s3.amazonaws.com/policygen.html
 
 Husk at S3-bucketnavn må være unike innenfor en region!
 
