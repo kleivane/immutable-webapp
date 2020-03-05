@@ -50,7 +50,7 @@ underveise
 
 ### Testmiljø med buckets
 
-Opprett to [buckets](https://www.terraform.io/docs/providers/aws/r/s3_bucket.html) som skal bli der vi server asset og host fra ved å bruke terraform. Start i `terraform/test/main.tf`. Husk at S3-bucketnavn må være unike innenfor en region!
+Opprett to [buckets](https://www.terraform.io/docs/providers/aws/r/s3_bucket.html) med terraform som skal bli der vi server asset og host. Start i `terraform/test/main.tf`. Husk at S3-bucketnavn må være unike innenfor en region!
 
 Anbefalt terraform-output for begge buckets:
 * bucket_domain_name - denne lenken kan du bruke til å aksessere filene du har lastet opp
@@ -72,10 +72,9 @@ Opprett bucketpolicies for begge bøttene ved å bruke [`aws_s3_bucket_policy`](
 </details>
 
 
+### Bruke AWS-cliet til opplasting av filer
 
-### Manuell opplasting av filer
-
-Bygg assets manuelt `npm run build` og last opp alt innholdet i build-mappen til asset-bucketen under navnet `assets/id`. Velg en tilfeldig id for testen, senere skal vi bruke githash! Test at fila blir tilgjengelig i browseren på `<bucket_domain_name>/assets/id/main.js` og sett rett cachcontrol-headers.
+Bygg assets manuelt `npm run build` og bruk aws-cliet opp alt innholdet i build-mappen til asset-bucketen under navnet `assets/id`. Velg en tilfeldig id for testen, senere skal vi bruke githash! Test at fila blir tilgjengelig i browseren på `<bucket_domain_name>/assets/id/main.js` og sett rett cachcontrol-headers.
 
 
 `aws s3 cp <LocalPath> <S3Uri>`
@@ -161,7 +160,7 @@ Cirka frem til punktet "Lag et eget domene" kan du finne et løsningsforslag i r
 
 * Klone repoet git clone <ssh> starterpack
 * Slett .git-mappa
-* Slett stuff under terraform (behold test/main og test/output og test/p)
+* Slett stuff under terraform (behold test/main og test/output og test/policy)
 * Slett stuff under .github (behold nodejs0.yml, og triggere xxxxx)
 * Lag et nytt repo på github
 * Slett notatene her
