@@ -36,7 +36,7 @@ resource "aws_s3_bucket_policy" "public" {
 }
 
 module "immutable_cloudfront" {
-  source             = "git@github.com:kleivane/terraform-aws-cloudfront-s3-assets.git?ref=986ca45154d3b7f7083a5bd66103eb66e84ef261"
+  source             = "git@github.com:kleivane/terraform-aws-cloudfront-s3-assets.git?ref=0.4.0"
   bucket_origin_id   = "S3-${aws_s3_bucket.test.id}"
   bucket_domain_name = aws_s3_bucket.test.bucket_regional_domain_name
   environment        = local.environment
