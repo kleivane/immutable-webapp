@@ -8,6 +8,10 @@ locals {
   url         = "www.skysett.net"
 }
 
+data "aws_route53_zone" "primary" {
+  name = "skysett.net."
+}
+
 resource "aws_s3_bucket" "prod" {
   bucket = "tf-immutable-webapp-prod"
 
@@ -16,7 +20,6 @@ resource "aws_s3_bucket" "prod" {
     Environment = local.environment
   }
 }
-
 
 resource "aws_s3_bucket_policy" "public" {
   bucket = aws_s3_bucket.prod.id
@@ -27,20 +30,17 @@ resource "aws_s3_bucket_policy" "public" {
 }
 
 
-
 module "immutable_cloudfront" {
-  source = "git@github.com:kleivane/terraform-aws-cloudfront-s3-assets.git?ref=0.3.0"
+  source = "git@github.com:kleivane/terraform-aws-cloudfront-s3-assets.git?ref=0.4.0"
 
   bucket_origin_id   = "S3-${aws_s3_bucket.prod.id}"
   bucket_domain_name = aws_s3_bucket.prod.bucket_regional_domain_name
   environment        = local.environment
 
   aliases = [local.url]
+  zone_id = data.aws_route53_zone.primary.zone_id
 }
 
-data "aws_route53_zone" "primary" {
-  name = "skysett.net."
-}
 
 module "production_www" {
   source          = "git::https://github.com/cloudposse/terraform-aws-route53-alias.git?ref=0.5.0"
