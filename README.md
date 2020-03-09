@@ -60,16 +60,7 @@ Når begge bucket er oppprettet uten mer oppsett, og du kan gå inn i konsollen 
 
 Opprett bucketpolicies for begge bøttene ved å bruke [`aws_s3_bucket_policy`](https://www.terraform.io/docs/providers/aws/r/s3_bucket_policy.html). I policy-atributtet kan du bruke en [templatefile](https://www.terraform.io/docs/configuration/functions/templatefile.html) med fila `policy/public_bucket.json.tpl`. Denne trenger en variabel `bucket_arn`. Bruk atributtet fra bucketen for å sende inn rett arn.
 
-
-<details><summary>Forklaring til public_bucket.json</summary>
-<p>
-- Linje 2-6 er bolierplate
-- Effect er enten Allow eller Deny. Her bruker vi allow for å tillate public acess
-- Principal `*` dekker alle brukere, også uinloggede
-- Action `"s3:GetObject"` er handlingen vil tillater, nemlig å lese en enkelt fil
-- Resource er hvilken ressurss i AWS policyreglen gjelder til. Her spesifierer vil at det  gjelder `${bucket_arn}/*`, det vil si alle filer i bucketen med arn'en vi sender inn
-</p>
-</details>
+Se [policy.md](terraform/test/policy/policy.md) for en forklaring på innholdet i policyen.
 
 
 ### Bruke AWS-cliet til opplasting av filer
