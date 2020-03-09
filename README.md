@@ -65,7 +65,7 @@ Se [policy.md](terraform/test/policy/policy.md) for en forklaring på innholdet 
 
 ### Bruke AWS-cliet til opplasting av filer
 
-Bygg assets manuelt `npm run build` og bruk aws-cliet opp alt innholdet i build-mappen til asset-bucketen under navnet `assets/id`. Velg en tilfeldig id for testen, senere skal vi bruke githash! Test at fila blir tilgjengelig i browseren på `<bucket_domain_name>/assets/id/main.js` og sett rett cachcontrol-headers.
+Bygg assets lokalt med `npm run build` og bruk aws-cliet til å laste opp alt innholdet i build-mappen til asset-bucketen under navnet `assets/id`. Velg en tilfeldig id for testen, senere skal vi bruke githash! Test at fila blir tilgjengelig i browseren på `<bucket_domain_name>/assets/id/main.js` og sett rett cachcontrol-headers.
 
 
 `aws s3 cp <LocalPath> <S3Uri>`
@@ -97,15 +97,18 @@ Om du nå går på `<bucket_domain_name>/index.html` bør du se en kjørende app
 
 ### Autodeploy av assets med Github Actions
 
-Det finnes en githook som linter yml-filer for å slippe unna enkelte yml-feil i workflow-definisjonen.
-Om du ønsker å ta den i bruk kan du sette `git config core.hooksPath .githooks`
+Nå skal vi la Github Actions overta bygging av assets og opplasting til assets-bucketen under unike versjonsnavn.
+For enkelhets skyld er versjonsnavnet her `assets/sha/`. Vi skal bruke de samme kommandoene som over,
+men la det utførest av github.
 
-- Bygg og kopier filer til assets-bucketen på hver push, se `.github/workflows/nodejs.yml`
+- I `.github/workflows/nodejs.yml` er det starten på en workflow. Fullfør denne slik at bygg og kopier filer til assets-bucketen skjer på hver push.
 - I run-delen av en githubaction kan man hente ut commit med `${{github.sha}}`, se [docs](https://help.github.com/en/actions/reference/contexts-and-expression-syntax-for-github-actions)
 
+Det finnes en githook som linter yml-filer for å slippe unna enkelte yml-feil i workflow-definisjonen.
+Om du ønsker å ta den i bruk kan du kjøre kommandoen `git config core.hooksPath .githooks`
 
 ### Autodeploy til host
-- Utvid `.github/workflows/nodejs.yml` til også å lage og kopiere opp index.html. Sjekk ut tilgjengelige variable for node i [docs](https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables).
+- Utvid `.github/workflows/nodejs.yml` til også å generere og laste opp index.html i host-bucketen. Sjekk ut tilgjengelige variable for node i [docs](https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables).
 
 
 ### CDN
