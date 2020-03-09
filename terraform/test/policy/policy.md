@@ -1,4 +1,4 @@
-I [public_bucket.json.tpl](public_bucket.json.tpl) er et eksempel på en tamplatefil
+I [public_bucket.json.tpl](public_bucket.json.tpl) er et eksempel på en templatefil
 for en iam-policy.
 
 Følgende forklarer litt om inneholdet i fila
