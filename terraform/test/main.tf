@@ -36,13 +36,13 @@ resource "aws_s3_bucket_policy" "public" {
 }
 
 module "immutable_cloudfront" {
-  source             = "git@github.com:kleivane/terraform-aws-cloudfront-s3-assets.git?ref=cc1f1a457ced55227c1e080e7537d0b81718410b"
+  source             = "git@github.com:kleivane/terraform-aws-cloudfront-s3-assets.git?ref=986ca45154d3b7f7083a5bd66103eb66e84ef261"
   bucket_origin_id   = "S3-${aws_s3_bucket.test.id}"
   bucket_domain_name = aws_s3_bucket.test.bucket_regional_domain_name
   environment        = local.environment
 
-  aliases         = [local.url]
-  certificate_arn = aws_acm_certificate_validation.primary.certificate_arn
+  aliases = [local.url]
+  zone_id = data.aws_route53_zone.primary.zone_id
 }
 
 
