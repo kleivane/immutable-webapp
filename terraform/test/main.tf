@@ -12,6 +12,10 @@ locals {
   environment = "test"
 }
 
+data "aws_route53_zone" "primary" {
+  name = "skysett.net."
+}
+
 
 resource "aws_s3_bucket" "test" {
   bucket = "tf-immutable-webapp-test"
@@ -22,8 +26,6 @@ resource "aws_s3_bucket" "test" {
   }
 }
 
-
-
 resource "aws_s3_bucket_policy" "public" {
   bucket = aws_s3_bucket.test.id
 
@@ -33,20 +35,16 @@ resource "aws_s3_bucket_policy" "public" {
 
 }
 
-
 module "immutable_cloudfront" {
-  source = "git@github.com:kleivane/terraform-aws-cloudfront-s3-assets.git?ref=0.3.0"
-
+  source             = "git@github.com:kleivane/terraform-aws-cloudfront-s3-assets.git?ref=cc1f1a457ced55227c1e080e7537d0b81718410b"
   bucket_origin_id   = "S3-${aws_s3_bucket.test.id}"
   bucket_domain_name = aws_s3_bucket.test.bucket_regional_domain_name
   environment        = local.environment
 
-  aliases = [local.url]
+  aliases         = [local.url]
+  certificate_arn = aws_acm_certificate_validation.primary.certificate_arn
 }
 
-data "aws_route53_zone" "primary" {
-  name = "skysett.net."
-}
 
 resource "aws_route53_record" "ipv4" {
   zone_id = data.aws_route53_zone.primary.zone_id
