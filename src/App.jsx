@@ -23,8 +23,8 @@ function App() {
       <GlobalStyle/ >
       <h1>{`App-version [${env.ENV_NAME}]: ${env.GIT_SHA.slice(0,7)}`}</h1>
       <ColorCircle base={color}/>
-      <div>{`Build created at ${dateformat(timestamp)}`}</div>
-      <div>{`Build deploy at ${dateformat(env.CREATED_AT)}`}</div>
+      <div>{`Build created at: ${dateformat(timestamp)}`}</div>
+      <div>{`Build deploy at: ${dateformat(env.CREATED_AT)}`}</div>
     </div>
   );
 }
