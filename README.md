@@ -150,6 +150,7 @@ Cirka frem til punktet "Lag et eget domene" kan du finne et løsningsforslag i r
 
 # Notater
 
+
 ## Lage Starterpack
 
 * Klone repoet git clone <ssh> starterpack
@@ -159,6 +160,20 @@ Cirka frem til punktet "Lag et eget domene" kan du finne et løsningsforslag i r
 * Lag et nytt repo på github
 * Slett notatene her
 * Kjør git init, add, commit, push til nytt repo
+
+# TODOs til 7. main
+
+* Poste forberedelser
+* Fikse mer opplegg til Cloudfront-sjekk
+* Sjekke at awscli 2.0.10 ikke endrer kommandoene  
+ * https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3/index.html
+ * login/copy
+ * Legg inn referanser til versjoner
+* Legge til act som alternativ (sjekk starterpack)?
+* Se over slides + sjekke tid
+* Fjerne API-url?
+* Lage starterpack
+
 
 ## Gode sky-prinsipper
 * Infrastruktur som kode
