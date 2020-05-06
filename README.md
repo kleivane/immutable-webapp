@@ -107,6 +107,7 @@ men la det utførest av github.
 Det finnes en githook som linter yml-filer for å slippe unna enkelte yml-feil i workflow-definisjonen.
 Om du ønsker å ta den i bruk kan du kjøre kommandoen `git config core.hooksPath .githooks`
 
+
 ### Autodeploy til host
 - Utvid `.github/workflows/nodejs.yml` til også å generere og laste opp index.html i host-bucketen. Sjekk ut tilgjengelige variable for node i [docs](https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables).
 
@@ -114,12 +115,24 @@ Om du ønsker å ta den i bruk kan du kjøre kommandoen `git config core.hooksPa
 ### CDN
 
 AWS CloudFront er Amazon sin CDN-provider, se [terraform-docs](https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html).
+Om du gjør dette for første gang anbefaler jeg at du starter med et cloudfront-domene og heller endrer til eget domene i neste steg.
 
-* TODO  tine må fylle ut tips herfra *
+For å mappe terraform-input til rett verdier, anbefaler jeg å se i aws-konsollen på CloudFront og velge "Create a distribution".
+En gotcha som er fin å vite om, dersom du [ikke setter verdier i ttl-atributtene](https://github.com/terraform-providers/terraform-provider-aws/issues/1994) til terraform vil dette gjøre at CloudFront velger å bruker cachecontrol-headers fra origin, tilsvarende `Use Origin Cache Headers` fra AWS-console'en.
+
+Figuren bakerst i slidesettet gir en slags oversikt av hvordan CloudFront passer inn som server for både host og assets - men dette var også den vanskeligste delen av oppgaven å beskrive! Så vær så snill å stikk innom Tine eller andre om det ikke gir mening. 
 
 Test ut endringer i `App.jsx` og deploy ny versjon av assets og index for å sjekke caching og endringer.
 - OBS: Nå kan du bruke `domain_name` outputen fra cloudfront som erstatning for `my-url` i `src-index/main.js`
 
+<details><summary>Tips</summary>
+<p>
+- du trenger en `origin` pr. s3 bucket
+- `enabled`, `restrictions`, `viewer_certificate` kan være default
+- `default_root_object` er `index.html`
+- `default_cache_behavior` og `ordered_cache_behavior` kan ha like configparameter, men default må peke på host-bucket og ordered_cache_behavior på assets. Path `assets/*` matcher url-strukturen fra index.html
+</p>
+</details>
 
 
 ## Alternativer videre (bruk rekkefølgen som står eller plukk selv om du ønsker noe spesielt)
@@ -139,6 +152,7 @@ Cirka frem til punktet "Lag et eget domene" kan du finne et løsningsforslag i r
     * Legg inn alias og sertifikat (`viewer_certificate`) i cloudfront. Merk av `ssl_support_method = sni-only` for å unngå ekstra kostnader!
     * Opprett alias i route53 med en ny [record](https://www.terraform.io/docs/providers/aws/r/route53_record.html)
     * *Alias record typically have a type of A or AAAA, but they work like a CNAME record*
+* Ta i bruk https://github.com/nektos/act for kjøring av github-actions lokalt
 * Skriv tester! https://terratest.gruntwork.io/
 * Trekk ut prodmiljø i en egen AWS-account
 * Rull ut dockercontaineren fra https://github.com/kleivane/static-json
@@ -163,16 +177,11 @@ Cirka frem til punktet "Lag et eget domene" kan du finne et løsningsforslag i r
 
 # TODOs til 7. main
 
-* Poste forberedelser
 * Fikse mer opplegg til Cloudfront-sjekk
-* Sjekke at awscli 2.0.10 ikke endrer kommandoene  
- * https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3/index.html
- * login/copy
- * Legg inn referanser til versjoner
-* Legge til act som alternativ (sjekk starterpack)?
-* Se over slides + sjekke tid
-* Fjerne API-url?
 * Lage starterpack
+
+## Vurderinger
+* Ta i bruk act for å enklere kjøring av github-action
 
 
 ## Gode sky-prinsipper
