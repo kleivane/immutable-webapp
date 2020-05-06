@@ -120,17 +120,19 @@ Om du gjør dette for første gang anbefaler jeg at du starter med et cloudfront
 For å mappe terraform-input til rett verdier, anbefaler jeg å se i aws-konsollen på CloudFront og velge "Create a distribution".
 En gotcha som er fin å vite om, dersom du [ikke setter verdier i ttl-atributtene](https://github.com/terraform-providers/terraform-provider-aws/issues/1994) til terraform vil dette gjøre at CloudFront velger å bruker cachecontrol-headers fra origin, tilsvarende `Use Origin Cache Headers` fra AWS-console'en.
 
-Figuren bakerst i slidesettet gir en slags oversikt av hvordan CloudFront passer inn som server for både host og assets - men dette var også den vanskeligste delen av oppgaven å beskrive! Så vær så snill å stikk innom Tine eller andre om det ikke gir mening. 
+Figuren bakerst i slidesettet gir en slags oversikt av hvordan CloudFront passer inn som server for både host og assets - men dette var også den vanskeligste delen av oppgaven å beskrive! Så vær så snill å stikk innom Tine eller andre om det ikke gir mening.
 
 Test ut endringer i `App.jsx` og deploy ny versjon av assets og index for å sjekke caching og endringer.
 - OBS: Nå kan du bruke `domain_name` outputen fra cloudfront som erstatning for `my-url` i `src-index/main.js`
 
 <details><summary>Tips</summary>
 <p>
+
 - du trenger en `origin` pr. s3 bucket
 - `enabled`, `restrictions`, `viewer_certificate` kan være default
 - `default_root_object` er `index.html`
 - `default_cache_behavior` og `ordered_cache_behavior` kan ha like configparameter, men default må peke på host-bucket og ordered_cache_behavior på assets. Path `assets/*` matcher url-strukturen fra index.html
+
 </p>
 </details>
 
