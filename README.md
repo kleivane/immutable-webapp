@@ -184,6 +184,7 @@ Cirka frem til punktet "Lag et eget domene" kan du finne et løsningsforslag i r
 
 ## Vurderinger
 * Ta i bruk act for å enklere kjøring av github-action
+* Trenger /build å lastes opp med sha i navnet? 
 
 
 ## Gode sky-prinsipper
