@@ -45,11 +45,62 @@ resource "aws_s3_bucket_policy" "public_asset" {
   policy = templatefile("policy/public_bucket.json.tpl", { bucket_arn = aws_s3_bucket.assets.arn })
 }
 
+resource "aws_cloudfront_distribution" "s3_distribution" {
+  origin {
+    domain_name = aws_s3_bucket.host.bucket_domain_name
+    origin_id   = "host-test"
+  }
+  origin {
+    domain_name = aws_s3_bucket.assets.bucket_domain_name
+    origin_id   = "assets-test"
+  }
+  default_cache_behavior {
+    allowed_methods = ["GET", "HEAD", "OPTIONS"]
+    cached_methods  = ["GET", "HEAD"]
+
+    forwarded_values {
+      query_string = false
+      cookies {
+        forward = "none"
+      }
+    }
+    target_origin_id       = "host-test"
+    viewer_protocol_policy = "allow-all"
+  }
+  ordered_cache_behavior {
+    path_pattern    = "assets/*"
+    allowed_methods = ["GET", "HEAD", "OPTIONS"]
+    cached_methods  = ["GET", "HEAD"]
+
+    forwarded_values {
+      query_string = false
+      cookies {
+        forward = "none"
+      }
+    }
+    target_origin_id       = "assets-test"
+    viewer_protocol_policy = "allow-all"
+  }
+
+  default_root_object = "index.html"
+  enabled             = true
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+  viewer_certificate {
+    cloudfront_default_certificate = true
+  }
+
+
+}
+
 
 output "host_id" {
   value = aws_s3_bucket.host.id
 }
 
 output "domain_name" {
-  value = aws_s3_bucket.host.bucket_domain_name
+  value = aws_cloudfront_distribution.s3_distribution.domain_name
 }
