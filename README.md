@@ -13,6 +13,7 @@ En implementasjon av stukturen fra https://immutablewebapps.org/ .
 - Opprett en AWS-konto på https://aws.amazon.com/.
     - Bruk Basic-versjonen
     - Legg inn betalingskort <- følg med på kostnadene og husk å slette infrastrukturen som koster penger når dagen er ferdig
+    - Sjekk at du kommer inn på [S3](https://s3.console.aws.amazon.com/s3/home) uten å bli bedt om mer signup  
 - Opprett en ny bruker i [IAM](https://console.aws.amazon.com/iam/home?#/users).
     - Add user: username `terraform` og access type `Programmatic access`
     - Permissions: `Attach existing policies directly` og velg policyen med policy name `AdministratorAccess`
