@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const sha = 1;
 const environment =  "test";
-const url = 'https://my-bucket-url' ;
+const url = 'https://tf-2-assets.s3.eu-north-1.amazonaws.com';
 const date = new Date().toISOString();
 
 const index = `<!doctype html>
