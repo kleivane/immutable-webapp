@@ -136,10 +136,11 @@ Test ut endringer i `App.jsx` og deploy ny versjon av assets og index for å sje
 </p>
 </details>
 
+Løsningsforslag i repoet frem til hit ligger under https://github.com/kleivane/immutable-webapp/tree/master/terraform/test-1 .
 
 ## Alternativer videre (bruk rekkefølgen som står eller plukk selv om du ønsker noe spesielt)
 
-Cirka frem til punktet "Lag et eget domene" kan du finne et løsningsforslag i repoet https://github.com/kleivane/immutable-webapp .
+Cirka frem til punktet "Lag et eget domene" kan du finne et løsningsforslag i repoet https://github.com/kleivane/immutable-webapp/ under mappene `terraform/test`, `terraform/prod` og `terraform/common`.
 
 * Lag et prodmiljø
 * La terraform opprette en [iam-bruker](https://www.terraform.io/docs/providers/aws/r/iam_user.html) som bruker av github med rettigheter kun til opplasting i buckets. [Rettighetssimulatoren](http://awspolicygen.s3.amazonaws.com/policygen.html) for iam kan hjelpe litt
