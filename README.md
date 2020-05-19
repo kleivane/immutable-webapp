@@ -186,6 +186,13 @@ Cirka frem til punktet "Lag et eget domene" kan du finne et løsningsforslag i r
 * Fikse mer opplegg til Cloudfront-sjekk
 * Lage starterpack
 
+# Tilbakemeldinger 19.mai
+* brukte mye tid på github actions
+* kom kort 🙈
+* funker bra med små grupper og skjermdeling
+* hvordan angripe CloudFront-delen....? mye config/doc/ukjent
+* teste ut import av en ressurss fra AWS
+
 ## Vurderinger
 * Ta i bruk act for å enklere kjøring av github-action
 * Trenger /build å lastes opp med sha i navnet?
