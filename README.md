@@ -105,6 +105,8 @@ men la det utførest av github.
 - I `.github/workflows/nodejs.yml` er det starten på en workflow. Fullfør denne slik at bygg og kopier filer til assets-bucketen skjer på hver push.
 - I run-delen av en githubaction kan man hente ut commit med `${{github.sha}}`, se [docs](https://help.github.com/en/actions/reference/contexts-and-expression-syntax-for-github-actions). Tilsvarende kan den hentes ut i `src-index/main.js som `process.env.GITHUB_SHA`
 
+For å trigge en action, committ en endring i en av filene under `src`.
+
 Det finnes en githook som linter yml-filer for å slippe unna enkelte yml-feil i workflow-definisjonen.
 Om du ønsker å ta den i bruk kan du kjøre kommandoen `git config core.hooksPath .githooks`
 
