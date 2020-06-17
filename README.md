@@ -1,5 +1,5 @@
 # Immutable-webapp
-En implementasjon av stukturen fra https://immutablewebapps.org/ 
+En implementasjon av stukturen fra https://immutablewebapps.org/
 
 [Slides](https://docs.google.com/presentation/d/1gcnwG0NzTiAlQ9NrjWCTa6c0yCiKYEkowBLn9BSKbjA/present)
 
@@ -230,3 +230,17 @@ type   = program/person
 - hvorfor trenger vi public acl på cp når man setter bucket til public? -> det virker som om canned acl tilhører et gammelt oppsett på aws s2 før iam-policies var lansert. Anbefalingene jeg har funnet frem preferer bucket
 policies over acl. Sistnevnte må også settes både på bucket og på objektnivå, noe som er ganske forvirrende.
 - kan man sette cachecontrol på bucketnivå?
+
+## Div
+
+Manuell lambda fra cli
+
+```
+aws \
+lambda invoke \
+--region eu-north-1 \
+--function-name deploy_test \
+--payload '{ "sha": "5aece97b2f96f31205b07ec8312d1d680445c439" }' \
+--cli-binary-format raw-in-base64-out \
+response.json
+```
