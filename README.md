@@ -233,7 +233,7 @@ policies over acl. Sistnevnte må også settes både på bucket og på objektniv
 
 ## Div
 
-Manuell lambda fra cli:
+Manuell lambda fra cli
 
 ```
 aws \
