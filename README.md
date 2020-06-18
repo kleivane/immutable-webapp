@@ -1,5 +1,5 @@
 # Immutable-webapp
-En implementasjon av stukturen fra https://immutablewebapps.org/.
+En implementasjon av stukturen fra https://immutablewebapps.org/
 
 [Slides](https://docs.google.com/presentation/d/1gcnwG0NzTiAlQ9NrjWCTa6c0yCiKYEkowBLn9BSKbjA/present)
 
